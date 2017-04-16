@@ -6,41 +6,46 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
+import java.util.ArrayList;
+
 /**
  * Created by Vukse on 13.4.2017..
  */
 
 public class TaskAdapter extends BaseAdapter {
 
+    //fali holder
+    ArrayList<TaskModel> tasks;
     private final Context context;
-    private final TaskModel item;
 
-    public TaskAdapter(Context context, TaskModel item) {
+    public TaskAdapter(Context context) {
         //super(context, R.layout.task_element, item);
         this.context = context;
-        this.item = item;
+        this.tasks = new ArrayList<>();
     }
 
     @Override
     public int getCount() {
-        return 0;
+        return tasks.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return null;
+        return tasks.get(position);
     }
 
     @Override
     public long getItemId(int position) {
-        return 0;
+        return position;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View rowView = inflater.inflate(R.layout.task_element, parent, false);
-        return rowView;
+        convertView = inflater.inflate(R.layout.task_element, null);
+
+        TaskModel tasks = (TaskModel) getItem(position);
+        return convertView;
     }
 }

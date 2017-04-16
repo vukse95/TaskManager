@@ -39,11 +39,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        //privremeno
-        //public TaskModel(String nameOfAssignment, String assigment, int year, int month, int day, int hour, int minute, int priorityFlag, boolean reminder) {
-        //privremeno
-        //lv=(ListView) findViewById(R.id.activity_main);
-        //lv.setAdapter(new TaskAdapter(this, test1));
+        ListView list =(ListView) findViewById(R.id.list);
+        TaskAdapter adapter = new TaskAdapter(this);
+
+        list.setAdapter(adapter);
 
     }
 }
