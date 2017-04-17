@@ -39,9 +39,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        ListView list =(ListView) findViewById(R.id.list);
         TaskAdapter adapter = new TaskAdapter(this);
+        //ubaci test polja u listu
+        adapter.addTask(new TaskModel("Kupi leba", "kupis leba u radnji bato", 2017, 6, 18
+                                                 , 6, 56, 15, true));
 
+        ListView list =(ListView) findViewById(R.id.list);
         list.setAdapter(adapter);
 
     }
