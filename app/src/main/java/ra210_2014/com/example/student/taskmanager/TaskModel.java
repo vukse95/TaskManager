@@ -5,14 +5,15 @@ package ra210_2014.com.example.student.taskmanager;
  */
 
 public class TaskModel {
-    private String nameOfAssignment;
+    public String nameOfAssignment;
     private String assigment;
-    private int year, month, day;
+    public int year, month, day;
     private int hour, minute;
-    private int priorityFlag;
-    private boolean reminder;
+    public int priorityFlag;
+    public boolean reminder;
 
-    public TaskModel(String nameOfAssignment, String assigment, int year, int month, int day, int hour, int minute, int priorityFlag, boolean reminder) {
+    public TaskModel(String nameOfAssignment, String assigment, int year, int month, int day
+                                            , int hour, int minute, int priorityFlag, boolean reminder) {
         this.nameOfAssignment = nameOfAssignment;
         this.assigment = assigment;
         this.year = year;

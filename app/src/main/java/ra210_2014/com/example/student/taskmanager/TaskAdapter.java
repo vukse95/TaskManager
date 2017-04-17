@@ -5,6 +5,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
+import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -15,13 +19,18 @@ import java.util.ArrayList;
 public class TaskAdapter extends BaseAdapter {
 
     //fali holder
-    ArrayList<TaskModel> tasks;
-    private final Context context;
+    private Context context;
+    private ArrayList<TaskModel> tasks;
 
     public TaskAdapter(Context context) {
         //super(context, R.layout.task_element, item);
         this.context = context;
         this.tasks = new ArrayList<>();
+    }
+
+    public void addTask(TaskModel taskModel){
+        tasks.add(taskModel);
+        notifyDataSetChanged();
     }
 
     @Override
@@ -31,7 +40,15 @@ public class TaskAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int position) {
-        return tasks.get(position);
+        Object rv = null;
+
+        try{
+            rv = tasks.get(position);
+        }catch (IndexOutOfBoundsException e){
+            e.printStackTrace();
+        }
+
+        return rv;
     }
 
     @Override
@@ -41,11 +58,38 @@ public class TaskAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        LayoutInflater inflater = (LayoutInflater) context
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        convertView = inflater.inflate(R.layout.task_element, null);
+       View view = convertView;
 
-        TaskModel tasks = (TaskModel) getItem(position);
-        return convertView;
+        if(view == null){
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(
+                    Context.LAYOUT_INFLATER_SERVICE);
+            view = inflater.inflate(R.layout.task_element, null);
+            ViewHolder holder = new ViewHolder();
+            holder.nazivZadatka = (TextView) view.findViewById(R.id.title);
+            holder.datum = (TextView) view.findViewById(R.id.date);
+            holder.podsetnik = (CheckBox) view.findViewById(R.id.reminder);
+            holder.prioritet = (View) view.findViewById(R.id.reminder);
+            view.setTag(holder);
+        }
+
+        TaskModel tModel = (TaskModel) getItem(position);
+        ViewHolder holder = (ViewHolder) view.getTag();
+        holder.nazivZadatka.setText(tModel.nameOfAssignment);
+        //promeniti da postoji juce, danas, sutra, itd...
+        holder.datum.setText(tModel.day + "." + tModel.month + "." + tModel.year);
+        holder.podsetnik.setChecked(tModel.reminder);
+        //promeniti da na osnovu priorityFlag menja jednu od 3 boja
+        holder.prioritet.setBackgroundColor(tModel.priorityFlag);
+
+        return view;
     }
+
+    private class ViewHolder {
+        public TextView nazivZadatka = null;
+        public TextView datum = null;
+        public CheckBox podsetnik = null;
+        public View prioritet = null;
+    }
+
+
 }
