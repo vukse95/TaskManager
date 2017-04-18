@@ -68,7 +68,7 @@ public class TaskAdapter extends BaseAdapter {
             holder.nazivZadatka = (TextView) view.findViewById(R.id.title);
             holder.datum = (TextView) view.findViewById(R.id.date);
             holder.podsetnik = (CheckBox) view.findViewById(R.id.reminder);
-            holder.prioritet = (View) view.findViewById(R.id.reminder);
+            holder.prioritet = view.findViewById(R.id.reminder);
             view.setTag(holder);
         }
 

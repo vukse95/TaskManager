@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -20,6 +21,7 @@ public class ZadatakLayout extends AppCompatActivity {
     int DateDay;
     int TimeHour;
     int TimeMinute;
+    //boolean reminder;
 
     String zadatakImeString;
     String zadatakOpisString;
@@ -37,6 +39,7 @@ public class ZadatakLayout extends AppCompatActivity {
         final ImageButton zelenoDugme = (ImageButton) findViewById(R.id.imageButton4);
         final EditText zadatakIme = (EditText) findViewById(R.id.editText);
         final EditText zadatakOpis = (EditText) findViewById(R.id.editText2);
+        final CheckBox reminder = (CheckBox) findViewById(R.id.checkBox);
         final Intent MainActivityIntent = new Intent(ZadatakLayout.this, MainActivity.class);
         final Bundle extras = getIntent().getExtras();
 
@@ -57,7 +60,7 @@ public class ZadatakLayout extends AppCompatActivity {
                                                              + "  " + Integer.toString(TimeHour) + ":" + Integer.toString(TimeMinute));
             zadatakOpis.setText(zadatakOpisString, TextView.BufferType.EDITABLE);
         }
-
+        //TOdo ako je vec uneo datum uzmi trenutni text iz polja
 
 
         button3.setOnClickListener(new View.OnClickListener() {
@@ -72,6 +75,26 @@ public class ZadatakLayout extends AppCompatActivity {
                         zadatakOpis.setError("Unesite opis zadatka!");
                 }
                 else{
+                    //dodaj u listu
+                    //adapter.addTask(new TaskModel(zadatakIme.getText(), "kupis leba u radnji bato", 2017, 6, 18
+                    //        , 6, 56, 15, true));
+                    MainActivityIntent.putExtra("DateYear", DateYear);
+                    MainActivityIntent.putExtra("DateMonth", DateMonth);
+                    MainActivityIntent.putExtra("DateDay",  DateDay);
+                    MainActivityIntent.putExtra("TimeHour", TimeHour);
+                    MainActivityIntent.putExtra("TimeMinute", TimeMinute);
+
+                    MainActivityIntent.putExtra("zadatakIme", zadatakImeString);
+                    MainActivityIntent.putExtra("zadatakOpis", zadatakOpisString);
+
+                    MainActivityIntent.putExtra("priority", dugmeFlag);
+                    if(reminder.isChecked()){
+                        MainActivityIntent.putExtra("reminder", true);
+                    }else{
+                        MainActivityIntent.putExtra("reminder", false);
+                    }
+
+
                     ZadatakLayout.this.startActivity(MainActivityIntent);
                 }
             }

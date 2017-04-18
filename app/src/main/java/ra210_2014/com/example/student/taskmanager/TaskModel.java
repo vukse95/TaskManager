@@ -12,6 +12,8 @@ public class TaskModel {
     public int priorityFlag;
     public boolean reminder;
 
+    //TODO napravi da moze da se menja boja prioriteta za adapter
+
     public TaskModel(String nameOfAssignment, String assigment, int year, int month, int day
                                             , int hour, int minute, int priorityFlag, boolean reminder) {
         this.nameOfAssignment = nameOfAssignment;
