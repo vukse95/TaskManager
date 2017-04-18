@@ -10,5 +10,7 @@
     <string name="editText2">Zadatak...</string>
     <string name="textView2">Vreme isteka zadatka</string>
     <string name="checkBox">Podseti me 15min pre isteka vremena!</string>
+    <string name="ArrayList">Naziv zadatka...</string>
+    <string name="ArrayListDate">-Datum-</string>
 
 </resources>

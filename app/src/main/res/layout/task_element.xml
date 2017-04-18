@@ -3,11 +3,14 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="20dp">
+    android:padding="10dp"
+    android:background="@color/bojaListe">
 
     <View android:id="@+id/priority"
-        android:layout_width="20dp"
-        android:layout_height="35dp"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
+        android:layout_width="30dp"
+        android:layout_height="55dp"
         android:layout_alignParentTop="true"
         android:background="#DDDDDD"
         android:visibility="visible"/>
@@ -19,7 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/priority"
         android:paddingLeft="10dp"
-        android:text="Naziv zadatka"
+        android:text="@string/ArrayList"
         android:textColor="@android:color/black"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
@@ -36,7 +39,7 @@
         android:id="@+id/date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
+        android:text="@string/ArrayListDate"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
