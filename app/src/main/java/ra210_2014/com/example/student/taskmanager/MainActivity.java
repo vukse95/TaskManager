@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
                                           , DateDay, TimeHour, TimeMinute, dugmeFlag, reminder));
         }
 
-
+        //TODO: Dodati Landscape mode za listu(main layout)!!
         list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
