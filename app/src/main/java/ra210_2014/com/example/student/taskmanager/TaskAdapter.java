@@ -1,11 +1,13 @@
 package ra210_2014.com.example.student.taskmanager;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.w3c.dom.Text;
@@ -68,9 +70,11 @@ public class TaskAdapter extends BaseAdapter {
             holder.nazivZadatka = (TextView) view.findViewById(R.id.title);
             holder.datum = (TextView) view.findViewById(R.id.date);
             holder.podsetnik = (CheckBox) view.findViewById(R.id.reminder);
-            holder.prioritet = view.findViewById(R.id.reminder);
+            holder.prioritet =  view.findViewById(R.id.priority);
             view.setTag(holder);
         }
+
+        //ovde budzim za boju i ostalo
 
         TaskModel tModel = (TaskModel) getItem(position);
         ViewHolder holder = (ViewHolder) view.getTag();
@@ -79,7 +83,18 @@ public class TaskAdapter extends BaseAdapter {
         holder.datum.setText(tModel.day + "." + tModel.month + "." + tModel.year);
         holder.podsetnik.setChecked(tModel.reminder);
         //promeniti da na osnovu priorityFlag menja jednu od 3 boja
-        holder.prioritet.setBackgroundColor(tModel.priorityFlag);
+        switch(tModel.priorityFlag){
+            case 1:
+                holder.prioritet.setBackgroundColor(Color.RED);
+                break;
+            case 2:
+                holder.prioritet.setBackgroundColor(Color.YELLOW);
+                break;
+            case 3:
+                holder.prioritet.setBackgroundColor(Color.GREEN);
+                break;
+        }
+
 
         return view;
     }
@@ -88,7 +103,7 @@ public class TaskAdapter extends BaseAdapter {
         public TextView nazivZadatka = null;
         public TextView datum = null;
         public CheckBox podsetnik = null;
-        public View prioritet = null;
+        public View  prioritet = null;
     }
 
 
