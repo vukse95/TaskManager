@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 
@@ -32,8 +33,8 @@ public class MainActivity extends AppCompatActivity {
 
         //View priorityColor = findViewById(R.id.priority);
 
-        TaskAdapter adapter = new TaskAdapter(this);
-        ListView list =(ListView) findViewById(R.id.list);
+        final TaskAdapter adapter = new TaskAdapter(this);
+        final ListView list =(ListView) findViewById(R.id.list);
 
         if (extras != null){
             DateYear = extras.getInt("DateYear");
@@ -52,6 +53,19 @@ public class MainActivity extends AppCompatActivity {
                                           , DateDay, TimeHour, TimeMinute, dugmeFlag, reminder));
         }
 
+
+        list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                //TODO: Odraditi do kraja onLongClick, izmeniti ZadatakLayout
+                //TODO: da moze da se edituje
+                //in3 = new Intent(MainActivity.this, NoviZadatak.class);
+                //TaskAdapter zadatak = (TaskAdapter) list.getItemAtPosition(position);
+                //in3.putExtra("azuriranje", zadatak);
+                //startActivityForResult(in3, 1);
+                return true;
+            }
+        });
 
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,10 +88,12 @@ public class MainActivity extends AppCompatActivity {
 
         //ubaci test polja u listu
         adapter.addTask(new TaskModel("Kupi leba", "kupis leba u radnji bato", 2017, 6, 18
-                                                 , 6, 56, 15, true));
+                                                 , 6, 56, 2, true));
 
 
         list.setAdapter(adapter);
 
     }
+
+    //TODO: Dodati onActivityResult da pamti listu
 }
