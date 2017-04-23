@@ -3,6 +3,7 @@ package ra210_2014.com.example.student.taskmanager;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -21,6 +22,9 @@ public class MainActivity extends AppCompatActivity {
     String zadatakImeString;
     String zadatakOpisString;
 
+    TaskAdapter adapter;
+    ListView list;
+
     //TODO Gubi listu svaki put kada se otvori novi intent!!!!!!!!!!
 
     @Override
@@ -33,8 +37,9 @@ public class MainActivity extends AppCompatActivity {
 
         //View priorityColor = findViewById(R.id.priority);
 
-        final TaskAdapter adapter = new TaskAdapter(this);
-        final ListView list =(ListView) findViewById(R.id.list);
+        adapter = new TaskAdapter(this);
+        list = (ListView) findViewById(R.id.list);
+        list.setAdapter(adapter);
 
         if (extras != null){
             DateYear = extras.getInt("DateYear");
@@ -53,12 +58,15 @@ public class MainActivity extends AppCompatActivity {
                                           , DateDay, TimeHour, TimeMinute, dugmeFlag, reminder));
         }
 
-        //TODO: Dodati Landscape mode za listu(main layout)!!
+
         list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 //TODO: Odraditi do kraja onLongClick, izmeniti ZadatakLayout
-                //TODO: da moze da se edituje
+                Log.d("LOG","usao u LongClick");
+
+                Intent noviZadatak = new Intent(MainActivity.this, ZadatakLayout.class);
+                MainActivity.this.startActivity(noviZadatak);
                 //in3 = new Intent(MainActivity.this, NoviZadatak.class);
                 //TaskAdapter zadatak = (TaskAdapter) list.getItemAtPosition(position);
                 //in3.putExtra("azuriranje", zadatak);
