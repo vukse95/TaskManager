@@ -3,6 +3,7 @@ package ra210_2014.com.example.student.taskmanager;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -40,11 +41,11 @@ public class KalendarLayout extends AppCompatActivity {
                 //ne moze se dodati godina u nazad
 
                 noviZadatak.putExtra("DateYear", datePicker.getYear());
-                noviZadatak.putExtra("DateMonth", datePicker.getMonth());
+                noviZadatak.putExtra("DateMonth", datePicker.getMonth() + 1);
                 noviZadatak.putExtra("DateDay", datePicker.getDayOfMonth());
                 noviZadatak.putExtra("TimeHour", timePicker.getHour());
                 noviZadatak.putExtra("TimeMinute", timePicker.getMinute());
-
+                Log.d("DATUM","Kalendar Month " + datePicker.getMonth());
                 noviZadatak.putExtra("zadatakIme", zadatakIme);
                 noviZadatak.putExtra("zadatakOpis",zadatakOpis );
 

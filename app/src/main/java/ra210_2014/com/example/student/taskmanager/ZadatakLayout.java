@@ -56,7 +56,7 @@ public class ZadatakLayout extends AppCompatActivity {
 
             zadatakIme.setText(zadatakImeString , TextView.BufferType.EDITABLE);
             TextView prikazIzabranogDatuma = (TextView) findViewById(R.id.textView2);
-            prikazIzabranogDatuma.setText("Izabrano vreme: " + Integer.toString(DateDay) + "." + Integer.toString(DateMonth + 1) + "." + Integer.toString(DateYear)
+            prikazIzabranogDatuma.setText("Izabrano vreme: " + Integer.toString(DateDay) + "." + Integer.toString(DateMonth) + "." + Integer.toString(DateYear)
                                                              + "  " + Integer.toString(TimeHour) + ":" + Integer.toString(TimeMinute));
             zadatakOpis.setText(zadatakOpisString, TextView.BufferType.EDITABLE);
         }
