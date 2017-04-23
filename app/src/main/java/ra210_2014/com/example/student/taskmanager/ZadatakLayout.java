@@ -26,6 +26,7 @@ public class ZadatakLayout extends AppCompatActivity {
     String zadatakImeString;
     String zadatakOpisString;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,20 +46,26 @@ public class ZadatakLayout extends AppCompatActivity {
 
 
         if (extras != null) {
-            DateYear = extras.getInt("DateYear");
-            DateMonth = extras.getInt("DateMonth");
-            DateDay = extras.getInt("DateDay");
-            TimeHour = extras.getInt("TimeHour");
-            TimeMinute = extras.getInt("TimeMinute");
+            if(extras.getString("update") != null){
+                //update popuni iz liste, promeni button za na sacuvaj
 
-            zadatakImeString = extras.getString("zadatakIme");
-            zadatakOpisString = extras.getString("zadatakOpis");
+            }else{
+                DateYear = extras.getInt("DateYear");
+                DateMonth = extras.getInt("DateMonth");
+                DateDay = extras.getInt("DateDay");
+                TimeHour = extras.getInt("TimeHour");
+                TimeMinute = extras.getInt("TimeMinute");
 
-            zadatakIme.setText(zadatakImeString , TextView.BufferType.EDITABLE);
-            TextView prikazIzabranogDatuma = (TextView) findViewById(R.id.textView2);
-            prikazIzabranogDatuma.setText("Izabrano vreme: " + Integer.toString(DateDay) + "." + Integer.toString(DateMonth) + "." + Integer.toString(DateYear)
-                                                             + "  " + Integer.toString(TimeHour) + ":" + Integer.toString(TimeMinute));
-            zadatakOpis.setText(zadatakOpisString, TextView.BufferType.EDITABLE);
+                zadatakImeString = extras.getString("zadatakIme");
+                zadatakOpisString = extras.getString("zadatakOpis");
+
+                zadatakIme.setText(zadatakImeString , TextView.BufferType.EDITABLE);
+                TextView prikazIzabranogDatuma = (TextView) findViewById(R.id.textView2);
+                prikazIzabranogDatuma.setText("Izabrano vreme: " + Integer.toString(DateDay) + "." + Integer.toString(DateMonth) + "." + Integer.toString(DateYear)
+                        + "  " + Integer.toString(TimeHour) + ":" + Integer.toString(TimeMinute));
+                zadatakOpis.setText(zadatakOpisString, TextView.BufferType.EDITABLE);
+            }
+
         }
         //TOdo ako je vec uneo datum uzmi trenutni text iz polja
 
@@ -95,7 +102,9 @@ public class ZadatakLayout extends AppCompatActivity {
                     }
 
 
-                    ZadatakLayout.this.startActivity(MainActivityIntent);
+                    //ZadatakLayout.this.startActivity(MainActivityIntent);
+                    setResult(RESULT_OK, MainActivityIntent);
+                    finish();
                 }
             }
         });
@@ -105,6 +114,8 @@ public class ZadatakLayout extends AppCompatActivity {
             public void onClick(View v) {
                 //otvori MainActivity
                 ZadatakLayout.this.startActivity(MainActivityIntent);
+                startActivity(MainActivityIntent);
+                finish();
             }
         });
         kalendar.setOnClickListener(new View.OnClickListener() {
@@ -118,7 +129,8 @@ public class ZadatakLayout extends AppCompatActivity {
                 if(zadatakOpis.getText().length() != 0)
                     Datum.putExtra("zadatakOpis", zadatakOpis.getText().toString());
 
-                ZadatakLayout.this.startActivity(Datum);
+                //ZadatakLayout.this.startActivity(Datum);
+                startActivityForResult(Datum, 1);
             }
         });
 

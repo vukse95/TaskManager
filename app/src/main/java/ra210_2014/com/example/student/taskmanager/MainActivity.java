@@ -9,9 +9,11 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 
+import java.io.Serializable;
+
 public class MainActivity extends AppCompatActivity {
 
-    int  dugmeFlag;
+    int dugmeFlag;
     boolean reminder;
     int DateYear;
     int DateMonth;
@@ -25,7 +27,8 @@ public class MainActivity extends AppCompatActivity {
     TaskAdapter adapter;
     ListView list;
 
-    //TODO Gubi listu svaki put kada se otvori novi intent!!!!!!!!!!
+    int REQUEST_CODE = 1;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,36 +44,15 @@ public class MainActivity extends AppCompatActivity {
         list = (ListView) findViewById(R.id.list);
         list.setAdapter(adapter);
 
-        if (extras != null){
-            DateYear = extras.getInt("DateYear");
-            DateMonth = extras.getInt("DateMonth");
-            DateDay = extras.getInt("DateDay");
-            TimeHour = extras.getInt("TimeHour");
-            TimeMinute = extras.getInt("TimeMinute");
-
-            zadatakImeString = extras.getString("zadatakIme");
-            zadatakOpisString = extras.getString("zadatakOpis");
-
-            dugmeFlag = extras.getInt("priority");
-            reminder = extras.getBoolean("reminder");
-            //public TaskModel(String nameOfAssignment, String assigment, int year, int month, int day, int hour, int minute, int priorityFlag, boolean reminder)
-            adapter.addTask(new TaskModel(zadatakImeString, zadatakOpisString, DateYear, DateMonth
-                                          , DateDay, TimeHour, TimeMinute, dugmeFlag, reminder));
-        }
-
 
         list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                //TODO: Odraditi do kraja onLongClick, izmeniti ZadatakLayout
-                Log.d("LOG","usao u LongClick");
-
                 Intent noviZadatak = new Intent(MainActivity.this, ZadatakLayout.class);
-                MainActivity.this.startActivity(noviZadatak);
-                //in3 = new Intent(MainActivity.this, NoviZadatak.class);
-                //TaskAdapter zadatak = (TaskAdapter) list.getItemAtPosition(position);
-                //in3.putExtra("azuriranje", zadatak);
-                //startActivityForResult(in3, 1);
+                TaskAdapter zadatak = (TaskAdapter) list.getItemAtPosition(position);
+                noviZadatak.putExtra("update", (Serializable) zadatak);
+                startActivityForResult(noviZadatak, REQUEST_CODE);
+
                 return true;
             }
         });
@@ -80,7 +62,9 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 //otvori ZadatakLayout
                 Intent noviZadatak = new Intent(MainActivity.this, ZadatakLayout.class);
-                MainActivity.this.startActivity(noviZadatak);
+                //MainActivity.this.startActivity(noviZadatak);
+                startActivityForResult(noviZadatak, REQUEST_CODE);
+                //TODO:menjao!
             }
         });
 
@@ -94,14 +78,34 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        //ubaci test polja u listu
-        adapter.addTask(new TaskModel("Kupi leba", "kupis leba u radnji bato", 2017, 4, 25
-                                                 , 6, 56, 2, true));
-
-
-        list.setAdapter(adapter);
+        //list.setAdapter(adapter);
 
     }
 
-    //TODO: Dodati onActivityResult da pamti listu
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
+
+                DateYear = data.getIntExtra("DateYear", 0);
+                DateMonth = data.getIntExtra("DateMonth", 0);
+                DateDay = data.getIntExtra("DateDay", 0);
+                TimeHour = data.getIntExtra("TimeHour", 0);
+                TimeMinute = data.getIntExtra("TimeMinute", 0);
+
+                zadatakImeString = data.getStringExtra("zadatakIme");
+                zadatakOpisString = data.getStringExtra("zadatakOpis");
+
+                dugmeFlag = data.getIntExtra("priority", 0);
+                reminder = data.getBooleanExtra("reminder", false);
+                //public TaskModel(String nameOfAssignment, String assigment, int year, int month, int day, int hour, int minute, int priorityFlag, boolean reminder)
+                adapter.addTask(new TaskModel(zadatakImeString, zadatakOpisString, DateYear, DateMonth
+                        , DateDay, TimeHour, TimeMinute, dugmeFlag, reminder));
+
+            }
+        }
+
+
+    }
 }

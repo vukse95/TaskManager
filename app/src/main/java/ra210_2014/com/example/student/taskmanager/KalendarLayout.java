@@ -49,7 +49,9 @@ public class KalendarLayout extends AppCompatActivity {
                 noviZadatak.putExtra("zadatakIme", zadatakIme);
                 noviZadatak.putExtra("zadatakOpis",zadatakOpis );
 
-                KalendarLayout.this.startActivity(noviZadatak);
+                //KalendarLayout.this.startActivity(noviZadatak);
+                setResult(RESULT_OK, noviZadatak);
+                finish();
             }
         });
 
