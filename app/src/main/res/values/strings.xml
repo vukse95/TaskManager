@@ -13,4 +13,14 @@
     <string name="ArrayList">Naziv zadatka...</string>
     <string name="ArrayListDate">-Datum-</string>
 
+    <string name="Monday">Ponedeljak</string>
+    <string name="Tuesday">Utorak</string>
+    <string name="Wednesday">Sreda</string>
+    <string name="Thursday">Četvrtak</string>
+    <string name="Friday">Petak</string>
+    <string name="Saturday">Subota</string>
+    <string name="Sunday">Nedelja</string>
+    <string name="Today">Danas</string>
+    <string name="Tomorrow">Sutra</string>
+
 </resources>

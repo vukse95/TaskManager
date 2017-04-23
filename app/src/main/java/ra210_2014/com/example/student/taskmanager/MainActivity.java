@@ -95,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         //ubaci test polja u listu
-        adapter.addTask(new TaskModel("Kupi leba", "kupis leba u radnji bato", 2017, 6, 18
+        adapter.addTask(new TaskModel("Kupi leba", "kupis leba u radnji bato", 2017, 4, 25
                                                  , 6, 56, 2, true));
 
 

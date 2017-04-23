@@ -3,6 +3,7 @@ package ra210_2014.com.example.student.taskmanager;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,8 +11,12 @@ import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by Vukse on 13.4.2017..
@@ -35,7 +40,7 @@ public class TaskAdapter extends BaseAdapter {
         notifyDataSetChanged();
     }
 
-    public void removeTask(TaskModel taskModel){
+    public void removeTask(TaskModel taskModel) {
         tasks.remove(taskModel);
         notifyDataSetChanged();
     }
@@ -72,6 +77,8 @@ public class TaskAdapter extends BaseAdapter {
         int CurrentMont = c.get(Calendar.MONTH);
         int CurrentYear = c.get(Calendar.YEAR);
 
+        CurrentMont += 1;
+
         if (view == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(
                     Context.LAYOUT_INFLATER_SERVICE);
@@ -89,19 +96,64 @@ public class TaskAdapter extends BaseAdapter {
         TaskModel tModel = (TaskModel) getItem(position);
         final ViewHolder holder = (ViewHolder) view.getTag();
 
-
         holder.nazivZadatka.setText(tModel.nameOfAssignment);
 
+        Log.d("DATUM", "----------------------------");
+        Log.d("DATUM", "tModel.day " + tModel.day);
+        Log.d("DATUM", "tModel.month " + tModel.month);
+        Log.d("DATUM", "tModel.year " + tModel.year);
+        Log.d("DATUM", "CurrentDay " + CurrentDay);
+        Log.d("DATUM", "CurrentMont " + CurrentMont);
+        Log.d("DATUM", "CurrentYear " + CurrentYear);
+        Log.d("DATUM", "----------------------------");
+
         if (tModel.year == CurrentYear && tModel.month == CurrentMont) {
-            if (CurrentDay - tModel.day > 7) {
-                //TODO: Napisi datum
-            } else {
+            if (tModel.day - CurrentDay <= 7) {
                 if (tModel.day == CurrentDay) {
-                    holder.datum.setText("Danas");
+                    holder.datum.setText(context.getResources().getString(R.string.Today));
                 } else if (CurrentDay + 1 == tModel.day) {
-                    holder.datum.setText("Sutra");
+                    holder.datum.setText(context.getResources().getString(R.string.Tomorrow));
+                } else if (tModel.day - CurrentDay >= 2 && tModel.day - CurrentDay <= 7) {
+                    //Konvertujemo u Date format
+                    String dateString = String.format("%d-%d-%d", tModel.year, tModel.month, tModel.day);
+                    Date date = null;
+                    try {
+                        date = new SimpleDateFormat("yyyy-M-d").parse(dateString);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    //Uzmemo dan
+                    String dayOfWeek = new SimpleDateFormat("EEEE", Locale.ENGLISH).format(date);
+                    holder.datum.setText(dayOfWeek);
+
+                    switch (dayOfWeek) {
+                        case "Monday":
+                            holder.datum.setText(context.getResources().getString(R.string.Monday));
+                            break;
+                        case "Tuesday":
+                            holder.datum.setText(context.getResources().getString(R.string.Tuesday));
+                            break;
+                        case "Wednesday":
+                            holder.datum.setText(context.getResources().getString(R.string.Wednesday));
+                            break;
+                        case "Thursday":
+                            holder.datum.setText(context.getResources().getString(R.string.Thursday));
+                            break;
+                        case "Friday":
+                            holder.datum.setText(context.getResources().getString(R.string.Friday));
+                            break;
+                        case "Saturday":
+                            holder.datum.setText(context.getResources().getString(R.string.Saturday));
+                            break;
+                        case "Sunday":
+                            holder.datum.setText(context.getResources().getString(R.string.Sunday));
+                    }
                 }
+            } else {
+                holder.datum.setText(tModel.day + "." + tModel.month + "." + tModel.year);
             }
+        } else {
+            holder.datum.setText(tModel.day + "." + tModel.month + "." + tModel.year);
         }
 
         holder.podsetnik.setOnClickListener(new View.OnClickListener() {
