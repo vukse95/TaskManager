@@ -34,6 +34,14 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"/>
+    <RadioButton
+        android:id="@+id/reminder1"
+        android:layout_toLeftOf="@+id/date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="false"
+        android:paddingRight="20dp"
+        android:layout_alignParentTop="true" />
 
     <TextView
         android:id="@+id/date"

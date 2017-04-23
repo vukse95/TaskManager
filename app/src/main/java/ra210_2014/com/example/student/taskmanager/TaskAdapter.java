@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import java.text.ParseException;
@@ -88,6 +89,7 @@ public class TaskAdapter extends BaseAdapter {
             holder.datum = (TextView) view.findViewById(R.id.date);
             holder.podsetnik = (CheckBox) view.findViewById(R.id.reminder);
             holder.prioritet = view.findViewById(R.id.priority);
+            holder.podsetnik2 = (RadioButton) view.findViewById(R.id.reminder1);
             view.setTag(holder);
         }
 
@@ -167,7 +169,6 @@ public class TaskAdapter extends BaseAdapter {
             }
         });
 
-
         switch (tModel.priorityFlag) {
             case 1:
                 holder.prioritet.setBackgroundColor(Color.RED);
@@ -180,6 +181,13 @@ public class TaskAdapter extends BaseAdapter {
                 break;
         }
 
+        if(tModel.reminder)
+        {
+            holder.podsetnik2.setChecked(true);
+
+        }else{
+            holder.podsetnik2.setChecked(false);
+        }
 
         return view;
     }
@@ -188,6 +196,7 @@ public class TaskAdapter extends BaseAdapter {
         public TextView nazivZadatka = null;
         public TextView datum = null;
         public CheckBox podsetnik = null;
+        public RadioButton podsetnik2 = null;
         public View prioritet = null;
     }
 
