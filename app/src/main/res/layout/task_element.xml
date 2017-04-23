@@ -4,7 +4,8 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="10dp"
-    android:background="@color/bojaListe">
+    android:background="@color/bojaListe"
+    android:longClickable="true">
 
     <View  android:id="@+id/priority"
         android:paddingBottom="10dp"
