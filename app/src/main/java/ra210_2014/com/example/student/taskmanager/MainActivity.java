@@ -66,11 +66,9 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("LOG","usao u LongClick");
 
                 Intent noviZadatak = new Intent(MainActivity.this, ZadatakLayout.class);
+                noviZadatak.putExtra("update", 1);
                 MainActivity.this.startActivity(noviZadatak);
-                //in3 = new Intent(MainActivity.this, NoviZadatak.class);
-                //TaskAdapter zadatak = (TaskAdapter) list.getItemAtPosition(position);
-                //in3.putExtra("azuriranje", zadatak);
-                //startActivityForResult(in3, 1);
+
                 return true;
             }
         });

@@ -45,6 +45,11 @@ public class ZadatakLayout extends AppCompatActivity {
 
 
         if (extras != null) {
+            if(extras.getInt("update") == 1)
+            {
+                button3.setText("Sacuvaj");
+                button4.setText("Obrisi");
+            }
             DateYear = extras.getInt("DateYear");
             DateMonth = extras.getInt("DateMonth");
             DateDay = extras.getInt("DateDay");
