@@ -29,6 +29,7 @@ public class TaskAdapter extends BaseAdapter {
     private Context context;
     private ArrayList<TaskModel> tasks;
     Calendar c = Calendar.getInstance();
+    private String nameOfAssignment;
 
     public TaskAdapter(Context context) {
         //super(context, R.layout.task_element, item);
@@ -191,6 +192,8 @@ public class TaskAdapter extends BaseAdapter {
 
         return view;
     }
+
+
 
     private class ViewHolder {
         public TextView nazivZadatka = null;
