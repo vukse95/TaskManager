@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent noviZadatak = new Intent(MainActivity.this, ZadatakLayout.class);
-                TaskAdapter zadatak = (TaskAdapter) list.getItemAtPosition(position);
+                TaskModel zadatak = (TaskModel) list.getItemAtPosition(position);
                 noviZadatak.putExtra("update", (Serializable) zadatak);
                 startActivityForResult(noviZadatak, REQUEST_CODE);
 
@@ -64,7 +64,6 @@ public class MainActivity extends AppCompatActivity {
                 Intent noviZadatak = new Intent(MainActivity.this, ZadatakLayout.class);
                 //MainActivity.this.startActivity(noviZadatak);
                 startActivityForResult(noviZadatak, REQUEST_CODE);
-                //TODO:menjao!
             }
         });
 

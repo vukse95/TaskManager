@@ -21,11 +21,14 @@ public class ZadatakLayout extends AppCompatActivity {
     int DateDay;
     int TimeHour;
     int TimeMinute;
-    //boolean reminder;
+    int PriorityFlag;
+    boolean Reminder;
 
     String zadatakImeString;
     String zadatakOpisString;
 
+    final EditText zadatakIme = (EditText) findViewById(R.id.editText);
+    final EditText zadatakOpis = (EditText) findViewById(R.id.editText2);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,16 +41,29 @@ public class ZadatakLayout extends AppCompatActivity {
         final ImageButton crvenoDugme = (ImageButton) findViewById(R.id.imageButton2);
         final ImageButton zutoDugme = (ImageButton) findViewById(R.id.imageButton3);
         final ImageButton zelenoDugme = (ImageButton) findViewById(R.id.imageButton4);
-        final EditText zadatakIme = (EditText) findViewById(R.id.editText);
-        final EditText zadatakOpis = (EditText) findViewById(R.id.editText2);
+
         final CheckBox reminder = (CheckBox) findViewById(R.id.checkBox);
         final Intent MainActivityIntent = new Intent(ZadatakLayout.this, MainActivity.class);
         final Bundle extras = getIntent().getExtras();
-
+        Intent in2 = getIntent();
 
         if (extras != null) {
             if(extras.getString("update") != null){
                 //update popuni iz liste, promeni button za na sacuvaj
+                TaskModel task = (TaskModel) in2.getSerializableExtra("update");
+
+                button3.setText("Sacuvaj");
+                button4.setText("Otkazi");
+
+                zadatakImeString = task.getNameOfAssignment();
+                zadatakOpisString = task.getAssigment();
+                DateYear = task.getYear();
+                DateMonth =task.getMonth();
+                DateDay = task.getDay();
+                TimeHour = task.getHour();
+                TimeMinute = task.getMinute();
+                PriorityFlag = task.getPriorityFlag();
+                Reminder = task.isReminder();
 
             }else{
                 DateYear = extras.getInt("DateYear");
@@ -124,13 +140,15 @@ public class ZadatakLayout extends AppCompatActivity {
                 //otvori DatePicker
                 Intent Datum = new Intent(ZadatakLayout.this, KalendarLayout.class);
 
+
+                Datum.putExtra("datumAccess", 2);
                 if(zadatakIme.getText().length() != 0)
                    Datum.putExtra("zadatakIme", zadatakIme.getText().toString());
                 if(zadatakOpis.getText().length() != 0)
                     Datum.putExtra("zadatakOpis", zadatakOpis.getText().toString());
 
                 //ZadatakLayout.this.startActivity(Datum);
-                startActivityForResult(Datum, 1);
+                startActivityForResult(Datum, 2);
             }
         });
 
@@ -165,5 +183,30 @@ public class ZadatakLayout extends AppCompatActivity {
         });
 
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 2) {
+            if (resultCode == RESULT_OK) {
+
+                DateYear = data.getIntExtra("DateYear", 0);
+                DateMonth = data.getIntExtra("DateMonth", 0);
+                DateDay = data.getIntExtra("DateDay", 0);
+                TimeHour = data.getIntExtra("TimeHour", 0);
+                TimeMinute = data.getIntExtra("TimeMinute", 0);
+
+                zadatakImeString = data.getStringExtra("zadatakIme");
+                zadatakOpisString = data.getStringExtra("zadatakOpis");
+
+                dugmeFlag = data.getIntExtra("priority", 0);
+                zadatakIme.setText(zadatakImeString , TextView.BufferType.EDITABLE);
+                TextView prikazIzabranogDatuma = (TextView) findViewById(R.id.textView2);
+                prikazIzabranogDatuma.setText("Izabrano vreme: " + Integer.toString(DateDay) + "." + Integer.toString(DateMonth) + "." + Integer.toString(DateYear)
+                        + "  " + Integer.toString(TimeHour) + ":" + Integer.toString(TimeMinute));
+                zadatakOpis.setText(zadatakOpisString, TextView.BufferType.EDITABLE);
+            }
+        }
     }
 }
