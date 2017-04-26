@@ -26,11 +26,11 @@ public class KalendarLayout extends AppCompatActivity {
         final TimePicker timePicker = (TimePicker) findViewById(R.id.timePicker);
 
         final Intent noviZadatak = new Intent(KalendarLayout.this, ZadatakLayout.class);
-        final Bundle extras = getIntent().getExtras();
+        Intent in2 = getIntent();
 
-        if (extras != null) {
-            zadatakIme = extras.getString("zadatakIme");
-            zadatakOpis = extras.getString("zadatakOpis");
+        if (in2.hasExtra("datumAccess")) {
+            zadatakIme = in2.getStringExtra("zadatakIme");
+            zadatakOpis = in2.getStringExtra("zadatakOpis");
         }
 
         button5.setOnClickListener(new View.OnClickListener() {
@@ -45,9 +45,9 @@ public class KalendarLayout extends AppCompatActivity {
                 noviZadatak.putExtra("DateDay", datePicker.getDayOfMonth());
                 noviZadatak.putExtra("TimeHour", timePicker.getHour());
                 noviZadatak.putExtra("TimeMinute", timePicker.getMinute());
-                Log.d("DATUM","Kalendar Month " + datePicker.getMonth());
+                Log.d("DATUM", "Kalendar Month " + datePicker.getMonth());
                 noviZadatak.putExtra("zadatakIme", zadatakIme);
-                noviZadatak.putExtra("zadatakOpis",zadatakOpis );
+                noviZadatak.putExtra("zadatakOpis", zadatakOpis);
 
                 //KalendarLayout.this.startActivity(noviZadatak);
                 setResult(RESULT_OK, noviZadatak);
@@ -63,4 +63,5 @@ public class KalendarLayout extends AppCompatActivity {
             }
         });
     }
+
 }
