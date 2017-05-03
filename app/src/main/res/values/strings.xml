@@ -6,6 +6,7 @@
     <string name="Button4">Otkazi</string>
     <string name="Button5">Izaberi</string>
     <string name="Button6">Otkazi</string>
+    <string name="backButton">Nazad</string>
     <string name="editText">Ime zadatka...</string>
     <string name="editText2">Zadatak...</string>
     <string name="textView2">Vreme isteka zadatka</string>
