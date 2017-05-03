@@ -17,7 +17,7 @@ public class PieChart extends View {
     private Paint slicePaint;
     private int[] sliceClrs = {Color.BLUE, Color.RED, Color.GREEN, Color.YELLOW};
     private int sliceColor;
-    private float[] datapoints; //Our values
+    private float[] datapoints;
     Paint paintText = new Paint();
 
     public PieChart(Context context, AttributeSet attrs)  {
@@ -36,11 +36,11 @@ public class PieChart extends View {
             int startTop = 0;
             int startLeft = 0;
             int endBottom = getWidth();
-            int endRight = endBottom; // To make this an equal square
-            // Create the box
-            RectF rectf = new RectF(startLeft, startTop, endRight, endBottom); // Creating the box
+            int endRight = endBottom;
 
-            float[] scaledValues = scale(); // Get the scaled values
+            RectF rectf = new RectF(startLeft, startTop, endRight, endBottom);
+
+            float[] scaledValues = scale();
             float sliceStartPoint = 0;
             for (int i = 0; i < scaledValues.length; i++) {
                 if(i <= 0)
@@ -48,8 +48,8 @@ public class PieChart extends View {
                 else
                     slicePaint.setColor(sliceClrs[sliceColor]);
 
-                canvas.drawArc(rectf, sliceStartPoint, scaledValues[i], true, slicePaint); // Draw slice
-                sliceStartPoint += scaledValues[i]; // Update starting point of the next slice
+                canvas.drawArc(rectf, sliceStartPoint, scaledValues[i], true, slicePaint);
+                sliceStartPoint += scaledValues[i];
                 canvas.drawText(Float.toString(Math.round(datapoints[1])) + "%", getWidth()/2 - 75, getHeight()/2 + 20 , paintText);
             }
         }
@@ -63,9 +63,9 @@ public class PieChart extends View {
 
     private float[] scale() {
         float[] scaledValues = new float[this.datapoints.length];
-        float total = getTotal(); // Total all values supplied to the chart
+        float total = getTotal();
         for (int i = 0; i < this.datapoints.length; i++) {
-            scaledValues[i] = (this.datapoints[i] / total) * 360; // Scale each value
+            scaledValues[i] = (this.datapoints[i] / total) * 360;
         }
         return scaledValues;
     }
