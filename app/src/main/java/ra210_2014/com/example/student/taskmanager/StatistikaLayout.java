@@ -34,8 +34,10 @@ public class StatistikaLayout extends AppCompatActivity {
 
 
         pieChart1.setDataPoints(datapoints1, 1);
+        pieChart1.animation();
         pieChart2.setDataPoints(datapoints2, 2);
+        pieChart2.animation();
         pieChart3.setDataPoints(datapoints3, 3);
-
+        pieChart3.animation();
     }
 }

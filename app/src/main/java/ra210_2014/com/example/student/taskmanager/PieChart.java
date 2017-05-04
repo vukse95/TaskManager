@@ -19,6 +19,7 @@ public class PieChart extends View {
     private int sliceColor;
     private float[] datapoints;
     Paint paintText = new Paint();
+    public int animationVar = 0;
 
     public PieChart(Context context, AttributeSet attrs)  {
         super(context, attrs);
@@ -42,22 +43,51 @@ public class PieChart extends View {
 
             float[] scaledValues = scale();
             float sliceStartPoint = 0;
+            /*
             for (int i = 0; i < scaledValues.length; i++) {
                 if(i <= 0)
                     slicePaint.setColor(sliceClrs[i]);
                 else
                     slicePaint.setColor(sliceClrs[sliceColor]);
 
+                //canvas.drawArc(rectf, sliceStartPoint, scaledValues[i], true, slicePaint);
+
                 canvas.drawArc(rectf, sliceStartPoint, scaledValues[i], true, slicePaint);
                 sliceStartPoint += scaledValues[i];
                 canvas.drawText(Float.toString(Math.round(datapoints[1])) + "%", getWidth()/2 - 75, getHeight()/2 + 20 , paintText);
             }
+            */
+            slicePaint.setColor(sliceClrs[sliceColor]);
+            canvas.drawArc(rectf, sliceStartPoint, animationVar, true, slicePaint);
+            sliceStartPoint += animationVar;
+            canvas.drawText(Float.toString(Math.round(datapoints[1])) + "%", getWidth()/2 - 75, getHeight()/2 + 20 , paintText);
         }
+    }
+
+    public void animation (){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                float[] scaledValues = scale();
+                float sliceStartPoint = 0;
+                while(animationVar <= Math.round(scaledValues[1])){
+                    try {
+                        Thread.sleep(10);
+                        animationVar++;
+
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    postInvalidate();
+                }
+            }
+        }).start();
     }
     public void setDataPoints(float[] dataPoints, int sliceColor) {
         this.datapoints = dataPoints;
         this.sliceColor = sliceColor;
         //Nacrtaj se sam :)
+        //animation();
         invalidate();
     }
 
