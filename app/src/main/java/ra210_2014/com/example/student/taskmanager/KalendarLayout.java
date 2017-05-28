@@ -28,10 +28,10 @@ public class KalendarLayout extends AppCompatActivity {
         final Intent noviZadatak = new Intent(KalendarLayout.this, ZadatakLayout.class);
         Intent in2 = getIntent();
 
-        if (in2.hasExtra("datumAccess")) {
-            zadatakIme = in2.getStringExtra("zadatakIme");
-            zadatakOpis = in2.getStringExtra("zadatakOpis");
-        }
+
+        zadatakIme = in2.getStringExtra("zadatakIme");
+        zadatakOpis = in2.getStringExtra("zadatakOpis");
+
 
         button5.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -49,9 +49,10 @@ public class KalendarLayout extends AppCompatActivity {
                 noviZadatak.putExtra("zadatakIme", zadatakIme);
                 noviZadatak.putExtra("zadatakOpis", zadatakOpis);
 
-                //KalendarLayout.this.startActivity(noviZadatak);
-                setResult(RESULT_OK, noviZadatak);
-                finish();
+                noviZadatak.putExtra("calendar", 1);
+                KalendarLayout.this.startActivity(noviZadatak);
+                //setResult(RESULT_OK, noviZadatak);
+                //finish();
             }
         });
 

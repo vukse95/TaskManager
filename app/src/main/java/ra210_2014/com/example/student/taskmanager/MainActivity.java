@@ -37,13 +37,18 @@ public class MainActivity extends AppCompatActivity {
         //View priorityColor = findViewById(R.id.priority);
 
         adapter = new TaskAdapter(this);
+        TaskDatabase db = new TaskDatabase(this, "Tasks", null, 1);
         list = (ListView) findViewById(R.id.list);
         list.setAdapter(adapter);
+        TaskModel[] tasks;
 
         //ako vrati da je novo dodaj u bazu i obnovi listu adaptera
         //ako je update pronadji u bazi zameni s novim i obnovi listu adaptera
 
+        //TODO: Napuni adapter iz baze
+
         if (extras != null) {
+
             DateYear = extras.getInt("DateYear");
             DateMonth = extras.getInt("DateMonth");
             DateDay = extras.getInt("DateDay");
@@ -55,9 +60,16 @@ public class MainActivity extends AppCompatActivity {
 
             dugmeFlag = extras.getInt("priority");
             reminder = extras.getBoolean("reminder");
-            //public TaskModel(String nameOfAssignment, String assigment, int year, int month, int day, int hour, int minute, int priorityFlag, boolean reminder)
-            adapter.addTask(new TaskModel(zadatakImeString, zadatakOpisString, DateYear, DateMonth
-                    , DateDay, TimeHour, TimeMinute, dugmeFlag, reminder));
+
+            if (extras.getInt("new") == 1) {
+                TaskModel tmp = new TaskModel(zadatakImeString, zadatakOpisString, DateYear, DateMonth
+                        , DateDay, TimeHour, TimeMinute, dugmeFlag, reminder);
+                db.insertTask(tmp);
+                adapter.addTask(tmp);
+            } else if (extras.getInt("update") == 1) {
+                //pretrazi bazu i edituj
+
+            }
         }
 
 
@@ -69,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
 
                 Intent noviZadatak = new Intent(MainActivity.this, ZadatakLayout.class);
                 noviZadatak.putExtra("update", 1);
+
                 MainActivity.this.startActivity(noviZadatak);
 
                 return true;
@@ -80,6 +93,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 //otvori ZadatakLayout
                 Intent noviZadatak = new Intent(MainActivity.this, ZadatakLayout.class);
+                noviZadatak.putExtra("new", 1);
                 MainActivity.this.startActivity(noviZadatak);
             }
         });
@@ -93,10 +107,19 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
+        //TODO: Resi bug ako je baza prazna
+        db.insertTask(new TaskModel("Kupi leba", "kupis leba u radnji bato", 2019, 4, 25, 6, 56, 2, true));
         //ubaci test polja u listu
-        adapter.addTask(new TaskModel("Kupi leba", "kupis leba u radnji bato", 2017, 4, 25
-                , 6, 56, 2, true));
+        tasks = db.readTaskModel();
+        //if(tasks.isEmpty())
+
+        //adapter.addTask(new TaskModel("Kupi leba", "kupis leba u radnji bato", 2017, 4, 25, 6, 56, 2, true));
+
+        if (db.isNotEmpty()) {
+            for (int i = 0; i < tasks.length; i++) {
+                adapter.addTask(tasks[i]);
+            }
+        }
 
 
         list.setAdapter(adapter);

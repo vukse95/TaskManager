@@ -92,4 +92,19 @@ public class TaskDatabase extends SQLiteOpenHelper {
 
         return tasks;
     }
+
+    public boolean isNotEmpty() {
+        boolean rowExists = false;
+        SQLiteDatabase db = getReadableDatabase();
+
+        Cursor mCursor = db.rawQuery("SELECT * FROM " + "Tasks", null);
+        mCursor.moveToFirst();
+
+        if (mCursor.getInt(mCursor.getColumnIndex("Year")) != 0) {
+            rowExists = true;
+        } else {
+            rowExists = false;
+        }
+        return rowExists;
+    }
 }

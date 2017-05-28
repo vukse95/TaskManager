@@ -15,7 +15,7 @@ import android.widget.TextView;
 public class ZadatakLayout extends AppCompatActivity {
 
 
-    int  dugmeFlag = 0;
+    int dugmeFlag = 0;
     int DateYear;
     int DateMonth;
     int DateDay;
@@ -45,24 +45,35 @@ public class ZadatakLayout extends AppCompatActivity {
 
 
         if (extras != null) {
-            if(extras.getInt("update") == 1)
-            {
+            if (extras.getInt("update") == 1) {
                 button3.setText("Sacuvaj");
                 button4.setText("Obrisi");
+
+                DateYear = extras.getInt("DateYear");
+                DateMonth = extras.getInt("DateMonth");
+                DateDay = extras.getInt("DateDay");
+                TimeHour = extras.getInt("TimeHour");
+                TimeMinute = extras.getInt("TimeMinute");
+
+                zadatakImeString = extras.getString("zadatakIme");
+                zadatakOpisString = extras.getString("zadatakOpis");
+            } else if (extras.getInt("calendar") == 1) {
+                DateYear = extras.getInt("DateYear");
+                DateMonth = extras.getInt("DateMonth");
+                DateDay = extras.getInt("DateDay");
+                TimeHour = extras.getInt("TimeHour");
+                TimeMinute = extras.getInt("TimeMinute");
+
+                zadatakImeString = extras.getString("zadatakIme");
+                zadatakOpisString = extras.getString("zadatakOpis");
             }
-            DateYear = extras.getInt("DateYear");
-            DateMonth = extras.getInt("DateMonth");
-            DateDay = extras.getInt("DateDay");
-            TimeHour = extras.getInt("TimeHour");
-            TimeMinute = extras.getInt("TimeMinute");
 
-            zadatakImeString = extras.getString("zadatakIme");
-            zadatakOpisString = extras.getString("zadatakOpis");
 
-            zadatakIme.setText(zadatakImeString , TextView.BufferType.EDITABLE);
+
+            zadatakIme.setText(zadatakImeString, TextView.BufferType.EDITABLE);
             TextView prikazIzabranogDatuma = (TextView) findViewById(R.id.textView2);
             prikazIzabranogDatuma.setText("Izabrano vreme: " + Integer.toString(DateDay) + "." + Integer.toString(DateMonth) + "." + Integer.toString(DateYear)
-                                                             + "  " + Integer.toString(TimeHour) + ":" + Integer.toString(TimeMinute));
+                    + "  " + Integer.toString(TimeHour) + ":" + Integer.toString(TimeMinute));
             zadatakOpis.setText(zadatakOpisString, TextView.BufferType.EDITABLE);
         }
         //TOdo ako je vec uneo datum uzmi trenutni text iz polja
@@ -72,20 +83,19 @@ public class ZadatakLayout extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //otvori MainActivity
-                if(zadatakIme.getText().toString().isEmpty() || zadatakOpis.getText().toString().isEmpty() || dugmeFlag == 0 || extras == null) {
+                if (zadatakIme.getText().toString().isEmpty() || zadatakOpis.getText().toString().isEmpty() || dugmeFlag == 0 || extras == null) {
                     //disable button
-                    if(zadatakIme.getText().toString().isEmpty())
+                    if (zadatakIme.getText().toString().isEmpty())
                         zadatakIme.setError("Unesite ime zadatka!");
-                    if(zadatakOpis.getText().toString().isEmpty())
+                    if (zadatakOpis.getText().toString().isEmpty())
                         zadatakOpis.setError("Unesite opis zadatka!");
-                }
-                else{
+                } else {
                     //dodaj u listu
                     //adapter.addTask(new TaskModel(zadatakIme.getText(), "kupis leba u radnji bato", 2017, 6, 18
                     //        , 6, 56, 15, true));
                     MainActivityIntent.putExtra("DateYear", DateYear);
                     MainActivityIntent.putExtra("DateMonth", DateMonth);
-                    MainActivityIntent.putExtra("DateDay",  DateDay);
+                    MainActivityIntent.putExtra("DateDay", DateDay);
                     MainActivityIntent.putExtra("TimeHour", TimeHour);
                     MainActivityIntent.putExtra("TimeMinute", TimeMinute);
 
@@ -93,12 +103,19 @@ public class ZadatakLayout extends AppCompatActivity {
                     MainActivityIntent.putExtra("zadatakOpis", zadatakOpisString);
 
                     MainActivityIntent.putExtra("priority", dugmeFlag);
-                    if(reminder.isChecked()){
+                    if (reminder.isChecked()) {
                         MainActivityIntent.putExtra("reminder", true);
-                    }else{
+                    } else {
                         MainActivityIntent.putExtra("reminder", false);
                     }
 
+                    //TODO: MENJAO OVDE!
+
+                    if (extras.getInt("update") == 1) {
+                        MainActivityIntent.putExtra("update", 1);
+                    } else {
+                        MainActivityIntent.putExtra("new", 1);
+                    }
 
                     ZadatakLayout.this.startActivity(MainActivityIntent);
                 }
@@ -118,9 +135,9 @@ public class ZadatakLayout extends AppCompatActivity {
                 //otvori DatePicker
                 Intent Datum = new Intent(ZadatakLayout.this, KalendarLayout.class);
 
-                if(zadatakIme.getText().length() != 0)
-                   Datum.putExtra("zadatakIme", zadatakIme.getText().toString());
-                if(zadatakOpis.getText().length() != 0)
+                if (zadatakIme.getText().length() != 0)
+                    Datum.putExtra("zadatakIme", zadatakIme.getText().toString());
+                if (zadatakOpis.getText().length() != 0)
                     Datum.putExtra("zadatakOpis", zadatakOpis.getText().toString());
 
                 ZadatakLayout.this.startActivity(Datum);
