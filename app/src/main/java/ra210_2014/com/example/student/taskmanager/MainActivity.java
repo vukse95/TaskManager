@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         //View priorityColor = findViewById(R.id.priority);
 
         adapter = new TaskAdapter(this);
-        TaskDatabase db = new TaskDatabase(this, "Tasks", null, 1);
+        final TaskDatabase db = new TaskDatabase(this, "Tasks", null, 1);
         list = (ListView) findViewById(R.id.list);
         list.setAdapter(adapter);
         TaskModel[] tasks;
@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
                 TaskModel tmp = new TaskModel(zadatakImeString, zadatakOpisString, DateYear, DateMonth
                         , DateDay, TimeHour, TimeMinute, dugmeFlag, reminder);
                 db.insertTask(tmp);
-                adapter.addTask(tmp);
+                //adapter.addTask(tmp);
             } else if (extras.getInt("update") == 1) {
                 //pretrazi bazu i edituj
 
@@ -80,7 +80,20 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("LOG", "usao u LongClick");
 
                 Intent noviZadatak = new Intent(MainActivity.this, ZadatakLayout.class);
+                TaskModel zadatak = (TaskModel) list.getItemAtPosition(position);
                 noviZadatak.putExtra("update", 1);
+
+                noviZadatak.putExtra("DateYear", zadatak.getYear());
+                noviZadatak.putExtra("DateMonth", zadatak.getMonth());
+                noviZadatak.putExtra("DateDay", zadatak.getDay());
+                noviZadatak.putExtra("TimeHour", zadatak.getHour());
+                noviZadatak.putExtra("TimeMinute", zadatak.getMinute());
+
+                noviZadatak.putExtra("zadatakIme", zadatak.getNameOfAssignment());
+                noviZadatak.putExtra("zadatakOpis", zadatak.getAssignment());
+
+                noviZadatak.putExtra("priority", zadatak.getPriorityFlag());
+                noviZadatak.putExtra("priority", zadatak.isReminder());
 
                 MainActivity.this.startActivity(noviZadatak);
 
@@ -103,6 +116,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 //otvori ZadatakLayout
                 Intent Statistika = new Intent(MainActivity.this, StatistikaLayout.class);
+
                 MainActivity.this.startActivity(Statistika);
             }
         });
