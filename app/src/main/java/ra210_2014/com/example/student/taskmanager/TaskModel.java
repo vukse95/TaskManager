@@ -62,4 +62,40 @@ public class TaskModel {
     public boolean isReminder() {
         return reminder;
     }
+
+    public void setNameOfAssignment(String nameOfAssignment) {
+        this.nameOfAssignment = nameOfAssignment;
+    }
+
+    public void setAssigment(String assigment) {
+        this.assigment = assigment;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
+    }
+
+    public void setMonth(int month) {
+        this.month = month;
+    }
+
+    public void setDay(int day) {
+        this.day = day;
+    }
+
+    public void setHour(int hour) {
+        this.hour = hour;
+    }
+
+    public void setMinute(int minute) {
+        this.minute = minute;
+    }
+
+    public void setPriorityFlag(int priorityFlag) {
+        this.priorityFlag = priorityFlag;
+    }
+
+    public void setReminder(boolean reminder) {
+        this.reminder = reminder;
+    }
 }
