@@ -11,7 +11,7 @@ import android.widget.ListView;
 
 public class MainActivity extends AppCompatActivity {
 
-    int  dugmeFlag;
+    int dugmeFlag;
     boolean reminder;
     int DateYear;
     int DateMonth;
@@ -25,7 +25,6 @@ public class MainActivity extends AppCompatActivity {
     TaskAdapter adapter;
     ListView list;
 
-    //TODO Gubi listu svaki put kada se otvori novi intent!!!!!!!!!!
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +40,10 @@ public class MainActivity extends AppCompatActivity {
         list = (ListView) findViewById(R.id.list);
         list.setAdapter(adapter);
 
-        if (extras != null){
+        //ako vrati da je novo dodaj u bazu i obnovi listu adaptera
+        //ako je update pronadji u bazi zameni s novim i obnovi listu adaptera
+
+        if (extras != null) {
             DateYear = extras.getInt("DateYear");
             DateMonth = extras.getInt("DateMonth");
             DateDay = extras.getInt("DateDay");
@@ -55,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
             reminder = extras.getBoolean("reminder");
             //public TaskModel(String nameOfAssignment, String assigment, int year, int month, int day, int hour, int minute, int priorityFlag, boolean reminder)
             adapter.addTask(new TaskModel(zadatakImeString, zadatakOpisString, DateYear, DateMonth
-                                          , DateDay, TimeHour, TimeMinute, dugmeFlag, reminder));
+                    , DateDay, TimeHour, TimeMinute, dugmeFlag, reminder));
         }
 
 
@@ -63,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 //TODO: Odraditi do kraja onLongClick, izmeniti ZadatakLayout
-                Log.d("LOG","usao u LongClick");
+                Log.d("LOG", "usao u LongClick");
 
                 Intent noviZadatak = new Intent(MainActivity.this, ZadatakLayout.class);
                 noviZadatak.putExtra("update", 1);
@@ -94,12 +96,11 @@ public class MainActivity extends AppCompatActivity {
 
         //ubaci test polja u listu
         adapter.addTask(new TaskModel("Kupi leba", "kupis leba u radnji bato", 2017, 4, 25
-                                                 , 6, 56, 2, true));
+                , 6, 56, 2, true));
 
 
         list.setAdapter(adapter);
 
     }
 
-    //TODO: Dodati onActivityResult da pamti listu
 }
