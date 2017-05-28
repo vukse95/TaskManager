@@ -99,26 +99,26 @@ public class TaskAdapter extends BaseAdapter {
         TaskModel tModel = (TaskModel) getItem(position);
         final ViewHolder holder = (ViewHolder) view.getTag();
 
-        holder.nazivZadatka.setText(tModel.nameOfAssignment);
+        holder.nazivZadatka.setText(tModel.getNameOfAssignment());
 
         Log.d("DATUM", "----------------------------");
-        Log.d("DATUM", "tModel.day " + tModel.day);
-        Log.d("DATUM", "tModel.month " + tModel.month);
-        Log.d("DATUM", "tModel.year " + tModel.year);
+        Log.d("DATUM", "tModel.day " + tModel.getDay());
+        Log.d("DATUM", "tModel.month " + tModel.getMonth());
+        Log.d("DATUM", "tModel.year " + tModel.getYear());
         Log.d("DATUM", "CurrentDay " + CurrentDay);
         Log.d("DATUM", "CurrentMont " + CurrentMont);
         Log.d("DATUM", "CurrentYear " + CurrentYear);
         Log.d("DATUM", "----------------------------");
 
-        if (tModel.year == CurrentYear && tModel.month == CurrentMont) {
-            if (tModel.day - CurrentDay <= 7) {
-                if (tModel.day == CurrentDay) {
+        if (tModel.getYear() == CurrentYear && tModel.getMonth() == CurrentMont) {
+            if (tModel.getDay() - CurrentDay <= 7) {
+                if (tModel.getDay() == CurrentDay) {
                     holder.datum.setText(context.getResources().getString(R.string.Today));
-                } else if (CurrentDay + 1 == tModel.day) {
+                } else if (CurrentDay + 1 == tModel.getDay()) {
                     holder.datum.setText(context.getResources().getString(R.string.Tomorrow));
-                } else if (tModel.day - CurrentDay >= 2 && tModel.day - CurrentDay <= 7) {
+                } else if (tModel.getDay() - CurrentDay >= 2 && tModel.getDay() - CurrentDay <= 7) {
                     //Konvertujemo u Date format
-                    String dateString = String.format("%d-%d-%d", tModel.year, tModel.month, tModel.day);
+                    String dateString = String.format("%d-%d-%d", tModel.getYear(), tModel.getMonth(), tModel.getDay());
                     Date date = null;
                     try {
                         date = new SimpleDateFormat("yyyy-M-d").parse(dateString);
@@ -153,10 +153,10 @@ public class TaskAdapter extends BaseAdapter {
                     }
                 }
             } else {
-                holder.datum.setText(tModel.day + "." + tModel.month + "." + tModel.year);
+                holder.datum.setText(tModel.getDay() + "." + tModel.getMonth() + "." + tModel.getYear());
             }
         } else {
-            holder.datum.setText(tModel.day + "." + tModel.month + "." + tModel.year);
+            holder.datum.setText(tModel.getDay() + "." + tModel.getMonth() + "." + tModel.getYear());
         }
 
         holder.podsetnik.setOnClickListener(new View.OnClickListener() {
@@ -170,7 +170,7 @@ public class TaskAdapter extends BaseAdapter {
             }
         });
 
-        switch (tModel.priorityFlag) {
+        switch (tModel.getPriorityFlag()) {
             case 1:
                 holder.prioritet.setBackgroundColor(Color.RED);
                 break;
@@ -182,7 +182,7 @@ public class TaskAdapter extends BaseAdapter {
                 break;
         }
 
-        if(tModel.reminder)
+        if(tModel.isReminder())
         {
             holder.podsetnik2.setChecked(true);
 
