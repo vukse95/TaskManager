@@ -5,19 +5,18 @@ package ra210_2014.com.example.student.taskmanager;
  */
 
 public class TaskModel {
-    public String nameOfAssignment;
-    private String assigment;
-    public int year, month, day;
+    private String nameOfAssignment;
+    private String assignment;
+    private int year, month, day;
     private int hour, minute;
-    public int priorityFlag;
-    public boolean reminder;
+    private int priorityFlag;
+    private boolean reminder;
 
-    //TODO napravi da moze da se menja boja prioriteta za adapter
 
-    public TaskModel(String nameOfAssignment, String assigment, int year, int month, int day
+    public TaskModel(String nameOfAssignment, String assignment, int year, int month, int day
                                             , int hour, int minute, int priorityFlag, boolean reminder) {
         this.nameOfAssignment = nameOfAssignment;
-        this.assigment = assigment;
+        this.assignment = assignment;
         this.year = year;
         this.month = month;
         this.day = day;
@@ -31,8 +30,8 @@ public class TaskModel {
         return nameOfAssignment;
     }
 
-    public String getAssigment() {
-        return assigment;
+    public String getAssignment() {
+        return assignment;
     }
 
     public int getYear() {
@@ -67,8 +66,8 @@ public class TaskModel {
         this.nameOfAssignment = nameOfAssignment;
     }
 
-    public void setAssigment(String assigment) {
-        this.assigment = assigment;
+    public void setAssignment(String assignment) {
+        this.assignment = assignment;
     }
 
     public void setYear(int year) {
