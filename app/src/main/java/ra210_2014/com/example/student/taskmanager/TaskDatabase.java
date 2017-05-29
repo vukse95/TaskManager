@@ -12,6 +12,8 @@ import android.database.sqlite.SQLiteOpenHelper;
  */
 
 public class TaskDatabase extends SQLiteOpenHelper {
+
+    public static String TASK_NAME = "NameOfAssignment";
     public TaskDatabase(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
     }
@@ -36,7 +38,7 @@ public class TaskDatabase extends SQLiteOpenHelper {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues contentValues = new ContentValues();
 
-        contentValues.put("NameOfAssignment", taskModel.getNameOfAssignment());
+        contentValues.put(TASK_NAME, taskModel.getNameOfAssignment());
         contentValues.put("Assignment", taskModel.getAssignment());
         contentValues.put("Year", taskModel.getYear());
         contentValues.put("Month", taskModel.getMonth());

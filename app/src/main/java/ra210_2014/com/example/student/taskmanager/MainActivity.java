@@ -1,6 +1,9 @@
 package ra210_2014.com.example.student.taskmanager;
 
+import android.content.ComponentName;
 import android.content.Intent;
+import android.content.ServiceConnection;
+import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -24,7 +27,8 @@ public class MainActivity extends AppCompatActivity {
 
     TaskAdapter adapter;
     ListView list;
-
+    NotificationService mService;
+    ServiceConnection cnnt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
         final TaskDatabase db = new TaskDatabase(this, "Tasks", null, 1);
         list = (ListView) findViewById(R.id.list);
         list.setAdapter(adapter);
-        TaskModel[] tasks;
+        final TaskModel[] tasks;
 
         //ako vrati da je novo dodaj u bazu i obnovi listu adaptera
         //ako je update pronadji u bazi zameni s novim i obnovi listu adaptera
@@ -60,6 +64,30 @@ public class MainActivity extends AppCompatActivity {
 
             dugmeFlag = extras.getInt("priority");
             reminder = extras.getBoolean("reminder");
+
+            tasks = db.readTaskModel();
+            //if tasks is null
+
+            if (db.isNotEmpty()) {
+                for (int i = 0; i < tasks.length; i++) {
+                    adapter.addTask(tasks[i]);
+                }
+            }
+
+            cnnt = new ServiceConnection() {
+                @Override
+                public void onServiceConnected(ComponentName name, IBinder service) {
+                    NotificationService.MyLocalBinder binder = (NotificationService.MyLocalBinder) service;
+                    mService = binder.getService();
+                    binder.getService();
+                    binder.setTasks(tasks);
+                }
+
+                @Override
+                public void onServiceDisconnected(ComponentName name) {
+
+                }
+            };
 
             if (extras.getInt("new") == 1) {
                 TaskModel tmp = new TaskModel(zadatakImeString, zadatakOpisString, DateYear, DateMonth
@@ -124,20 +152,19 @@ public class MainActivity extends AppCompatActivity {
         //TODO: Resi bug ako je baza prazna
         db.insertTask(new TaskModel("Kupi leba", "kupis leba u radnji bato", 2019, 4, 25, 6, 56, 2, true));
         //ubaci test polja u listu
-        tasks = db.readTaskModel();
+
         //if(tasks.isEmpty())
 
         //adapter.addTask(new TaskModel("Kupi leba", "kupis leba u radnji bato", 2017, 4, 25, 6, 56, 2, true));
-
-        if (db.isNotEmpty()) {
-            for (int i = 0; i < tasks.length; i++) {
-                adapter.addTask(tasks[i]);
-            }
-        }
 
 
         list.setAdapter(adapter);
 
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        unbindService(cnnt);
+    }
 }
