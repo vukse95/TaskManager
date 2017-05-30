@@ -14,6 +14,15 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class TaskDatabase extends SQLiteOpenHelper {
 
     public static String TASK_NAME = "NameOfAssignment";
+    public static String TASK_DESCRIPTION = "Assignment";
+    public static String TASK_TIME_YEAR = "Year";
+    public static String TASK_TIME_MONTH = "Month";
+    public static String TASK_TIME_DAY = "Day";
+    public static String TASK_TIME_HOUR = "Hour";
+    public static String TASK_TIME_MINUTE = "Minute";
+    public static String TASK_TIME_FLAG = "PriorityFlag";
+    public static String TASK_TIME_REMINDER = "Reminder";
+
     public TaskDatabase(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
     }
@@ -24,9 +33,9 @@ public class TaskDatabase extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE Tasks(NameOfAssignment TEXT, Assignment TEXT, Year INTEGER" +
-                ", Month INTEGER, Day INTEGER, Hour INTEGER, Minute INTEGER, PriorityFlag INTEGER" +
-                ", Reminder INTEGER);");
+        db.execSQL("CREATE TABLE Tasks(" + TASK_NAME + " TEXT, " + TASK_DESCRIPTION + " TEXT," + TASK_TIME_YEAR + " INTEGER, " +
+                TASK_TIME_MONTH + " INTEGER,"+ TASK_TIME_DAY +" INTEGER,"+ TASK_TIME_HOUR + " INTEGER,"+ TASK_TIME_MINUTE +" INTEGER,"+
+                TASK_TIME_FLAG +" INTEGER," + TASK_TIME_REMINDER +" INTEGER);");
     }
 
     @Override
@@ -39,24 +48,39 @@ public class TaskDatabase extends SQLiteOpenHelper {
         ContentValues contentValues = new ContentValues();
 
         contentValues.put(TASK_NAME, taskModel.getNameOfAssignment());
-        contentValues.put("Assignment", taskModel.getAssignment());
-        contentValues.put("Year", taskModel.getYear());
-        contentValues.put("Month", taskModel.getMonth());
-        contentValues.put("Day", taskModel.getDay());
-        contentValues.put("Hour", taskModel.getHour());
-        contentValues.put("Minute", taskModel.getMinute());
-        contentValues.put("PriorityFlag", taskModel.getPriorityFlag());
+        contentValues.put(TASK_DESCRIPTION, taskModel.getAssignment());
+        contentValues.put(TASK_TIME_YEAR, taskModel.getYear());
+        contentValues.put(TASK_TIME_MONTH, taskModel.getMonth());
+        contentValues.put(TASK_TIME_DAY, taskModel.getDay());
+        contentValues.put(TASK_TIME_HOUR, taskModel.getHour());
+        contentValues.put(TASK_TIME_MINUTE, taskModel.getMinute());
+        contentValues.put(TASK_TIME_FLAG, taskModel.getPriorityFlag());
 
         //isReminder vraca bool
         if (taskModel.isReminder()) {
-            contentValues.put("Reminder", 1);
+            contentValues.put(TASK_TIME_REMINDER, 1);
         } else {
-            contentValues.put("Reminder", 0);
+            contentValues.put(TASK_TIME_REMINDER, 0);
         }
 
 
         db.insert("Tasks", null, contentValues);
         db.close();
+    }
+
+    public void updateTask(TaskModel oldTask, TaskModel  newTask){
+        //TODO:update
+        /*
+        UPDATE
+                Customers
+        SET
+                ContactName = 'Alfred Schmidt',
+                City        = 'Frankfurt'
+        WHERE
+                CustomerID = 1
+        AND
+                ContactName = 'Stefan'
+       */
     }
 
     public TaskModel[] readTaskModel() {
@@ -72,15 +96,15 @@ public class TaskDatabase extends SQLiteOpenHelper {
         int i = 0;
 
         for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
-            String NameOfAssignment = cursor.getString(cursor.getColumnIndex("NameOfAssignment"));
-            String Assignment = cursor.getString(cursor.getColumnIndex("Assignment"));
-            int Year = cursor.getInt(cursor.getColumnIndex("Year"));
-            int Month = cursor.getInt(cursor.getColumnIndex("Month"));
-            int Day = cursor.getInt(cursor.getColumnIndex("Day"));
-            int Hour = cursor.getInt(cursor.getColumnIndex("Hour"));
-            int Minute = cursor.getInt(cursor.getColumnIndex("Minute"));
-            int PriorityFlag = cursor.getInt(cursor.getColumnIndex("PriorityFlag"));
-            int Reminder = cursor.getInt(cursor.getColumnIndex("Reminder"));
+            String NameOfAssignment = cursor.getString(cursor.getColumnIndex(TASK_NAME));
+            String Assignment = cursor.getString(cursor.getColumnIndex(TASK_DESCRIPTION));
+            int Year = cursor.getInt(cursor.getColumnIndex(TASK_TIME_YEAR));
+            int Month = cursor.getInt(cursor.getColumnIndex(TASK_TIME_MONTH));
+            int Day = cursor.getInt(cursor.getColumnIndex(TASK_TIME_DAY));
+            int Hour = cursor.getInt(cursor.getColumnIndex(TASK_TIME_HOUR));
+            int Minute = cursor.getInt(cursor.getColumnIndex(TASK_TIME_MINUTE));
+            int PriorityFlag = cursor.getInt(cursor.getColumnIndex(TASK_TIME_FLAG));
+            int Reminder = cursor.getInt(cursor.getColumnIndex(TASK_TIME_REMINDER));
 
             if (Reminder > 0) {
                 ReminderTmp = true;
