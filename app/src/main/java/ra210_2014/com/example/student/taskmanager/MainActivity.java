@@ -66,9 +66,8 @@ public class MainActivity extends AppCompatActivity {
             reminder = extras.getBoolean("reminder");
 
             tasks = db.readTaskModel();
-            //if tasks is null
 
-            if (db.isNotEmpty()) {
+            if (tasks != null) {
                 for (int i = 0; i < tasks.length; i++) {
                     adapter.addTask(tasks[i]);
                 }
@@ -151,20 +150,16 @@ public class MainActivity extends AppCompatActivity {
 
         //TODO: Resi bug ako je baza prazna
         db.insertTask(new TaskModel("Kupi leba", "kupis leba u radnji bato", 2019, 4, 25, 6, 56, 2, true));
-        //ubaci test polja u listu
-
-        //if(tasks.isEmpty())
-
-        //adapter.addTask(new TaskModel("Kupi leba", "kupis leba u radnji bato", 2017, 4, 25, 6, 56, 2, true));
 
 
         list.setAdapter(adapter);
 
     }
-
+    /*
     @Override
     protected void onStop() {
         super.onStop();
         unbindService(cnnt);
     }
+    */
 }

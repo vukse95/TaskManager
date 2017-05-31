@@ -13,6 +13,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class TaskDatabase extends SQLiteOpenHelper {
 
+    public static String TASK_DB = "Tasks";
     public static String TASK_NAME = "NameOfAssignment";
     public static String TASK_DESCRIPTION = "Assignment";
     public static String TASK_TIME_YEAR = "Year";
@@ -33,7 +34,7 @@ public class TaskDatabase extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE Tasks(" + TASK_NAME + " TEXT, " + TASK_DESCRIPTION + " TEXT," + TASK_TIME_YEAR + " INTEGER, " +
+        db.execSQL("CREATE TABLE " + TASK_DB +"(" + TASK_NAME + " TEXT, " + TASK_DESCRIPTION + " TEXT," + TASK_TIME_YEAR + " INTEGER, " +
                 TASK_TIME_MONTH + " INTEGER,"+ TASK_TIME_DAY +" INTEGER,"+ TASK_TIME_HOUR + " INTEGER,"+ TASK_TIME_MINUTE +" INTEGER,"+
                 TASK_TIME_FLAG +" INTEGER," + TASK_TIME_REMINDER +" INTEGER);");
     }
@@ -64,12 +65,13 @@ public class TaskDatabase extends SQLiteOpenHelper {
         }
 
 
-        db.insert("Tasks", null, contentValues);
+        db.insert(TASK_DB, null, contentValues);
         db.close();
     }
 
     public void updateTask(TaskModel oldTask, TaskModel  newTask){
         //TODO:update
+
         /*
         UPDATE
                 Customers
@@ -81,6 +83,29 @@ public class TaskDatabase extends SQLiteOpenHelper {
         AND
                 ContactName = 'Stefan'
        */
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put(TASK_NAME, newTask.getNameOfAssignment());
+        contentValues.put(TASK_DESCRIPTION, newTask.getAssignment());
+        contentValues.put(TASK_TIME_YEAR, newTask.getYear());
+        contentValues.put(TASK_TIME_MONTH, newTask.getMonth());
+        contentValues.put(TASK_TIME_DAY, newTask.getDay());
+        contentValues.put(TASK_TIME_HOUR, newTask.getHour());
+        contentValues.put(TASK_TIME_MINUTE, newTask.getMinute());
+        contentValues.put(TASK_TIME_FLAG, newTask.getPriorityFlag());
+
+        //isReminder vraca bool
+        if (newTask.isReminder()) {
+            contentValues.put(TASK_TIME_REMINDER, 1);
+        } else {
+            contentValues.put(TASK_TIME_REMINDER, 0);
+        }
+
+
+        db.update(TASK_DB, contentValues,"" + TASK_NAME + "= '" + oldTask.getNameOfAssignment() +"' AND " + TASK_DESCRIPTION + "= '" + oldTask.getAssignment() , null);
+        db.close();
+
     }
 
     public TaskModel[] readTaskModel() {
