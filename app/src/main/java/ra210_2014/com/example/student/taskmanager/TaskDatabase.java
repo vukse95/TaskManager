@@ -90,6 +90,24 @@ public class TaskDatabase extends SQLiteOpenHelper {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues contentValues = new ContentValues();
 
+        //u slucaju greske
+        if(newTask.getAssignment() == null)
+        {
+            newTask.setAssignment("Prazno!");
+        }
+        if(newTask.getNameOfAssignment() == null)
+        {
+            newTask.setNameOfAssignment("Prazno");
+        }
+        if (oldTask.getAssignment() == null)
+        {
+            oldTask.setAssignment("Prazno!");
+        }
+        if(oldTask.getNameOfAssignment() == null)
+        {
+            oldTask.setNameOfAssignment("Prazno");
+        }
+
         contentValues.put(TASK_NAME, newTask.getNameOfAssignment());
         contentValues.put(TASK_DESCRIPTION, newTask.getAssignment());
         contentValues.put(TASK_TIME_YEAR, newTask.getYear());
@@ -106,10 +124,9 @@ public class TaskDatabase extends SQLiteOpenHelper {
             contentValues.put(TASK_TIME_REMINDER, 0);
         }
 
-
+        //update bug-uje, resiti rucno!
         db.update(TASK_DB, contentValues,"" + TASK_NAME + "= '" + oldTask.getNameOfAssignment() +"' AND " + TASK_DESCRIPTION + "= '" + oldTask.getAssignment() , null);
         db.close();
-
     }
 
     public TaskModel[] readTaskModel() {

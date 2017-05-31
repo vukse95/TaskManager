@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     ServiceConnection cnnt;
     TaskModel[] tasks = null;
     boolean isBounded = false;
+    TaskModel zadatak;
 
 
     @Override
@@ -78,6 +79,12 @@ public class MainActivity extends AppCompatActivity {
                 //adapter.addTask(tmp);
             } else if (extras.getInt("update") == 1) {
                 //pretrazi bazu i edituj
+                TaskModel tmp = new TaskModel(zadatakImeString, zadatakOpisString, DateYear, DateMonth
+                        , DateDay, TimeHour, TimeMinute, dugmeFlag, reminder);
+
+                //zadatak_oldTask, tmp_newTask
+                //TODO:BUG!!!!!!!
+                db.updateTask(zadatak, tmp);
 
             }
         }
@@ -111,11 +118,11 @@ public class MainActivity extends AppCompatActivity {
         list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                //TODO: Odraditi do kraja onLongClick, izmeniti ZadatakLayout
+                //TODO: Assignment je null (ostali parametri ok), zasto?
                 Log.d("LOG", "usao u LongClick");
 
                 Intent noviZadatak = new Intent(MainActivity.this, ZadatakLayout.class);
-                TaskModel zadatak = (TaskModel) list.getItemAtPosition(position);
+                zadatak = (TaskModel) list.getItemAtPosition(position);
                 noviZadatak.putExtra("update", 1);
                 noviZadatak.putExtra("DateYear", zadatak.getYear());
                 noviZadatak.putExtra("DateMonth", zadatak.getMonth());
