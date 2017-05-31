@@ -38,8 +38,6 @@ public class MainActivity extends AppCompatActivity {
         Button button2 = (Button) findViewById(R.id.button2);
         final Bundle extras = getIntent().getExtras();
 
-        //View priorityColor = findViewById(R.id.priority);
-
         adapter = new TaskAdapter(this);
         final TaskDatabase db = new TaskDatabase(this, "Tasks", null, 1);
         list = (ListView) findViewById(R.id.list);
@@ -58,35 +56,10 @@ public class MainActivity extends AppCompatActivity {
             DateDay = extras.getInt("DateDay");
             TimeHour = extras.getInt("TimeHour");
             TimeMinute = extras.getInt("TimeMinute");
-
             zadatakImeString = extras.getString("zadatakIme");
             zadatakOpisString = extras.getString("zadatakOpis");
-
             dugmeFlag = extras.getInt("priority");
             reminder = extras.getBoolean("reminder");
-
-            tasks = db.readTaskModel();
-
-            if (tasks != null) {
-                for (int i = 0; i < tasks.length; i++) {
-                    adapter.addTask(tasks[i]);
-                }
-            }
-
-            cnnt = new ServiceConnection() {
-                @Override
-                public void onServiceConnected(ComponentName name, IBinder service) {
-                    NotificationService.MyLocalBinder binder = (NotificationService.MyLocalBinder) service;
-                    mService = binder.getService();
-                    binder.getService();
-                    binder.setTasks(tasks);
-                }
-
-                @Override
-                public void onServiceDisconnected(ComponentName name) {
-
-                }
-            };
 
             if (extras.getInt("new") == 1) {
                 TaskModel tmp = new TaskModel(zadatakImeString, zadatakOpisString, DateYear, DateMonth
@@ -99,6 +72,28 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
+        tasks = db.readTaskModel();
+
+        if (tasks != null) {
+            for (int i = 0; i < tasks.length; i++) {
+                adapter.addTask(tasks[i]);
+            }
+        }
+
+        cnnt = new ServiceConnection() {
+            @Override
+            public void onServiceConnected(ComponentName name, IBinder service) {
+                NotificationService.MyLocalBinder binder = (NotificationService.MyLocalBinder) service;
+                mService = binder.getService();
+                binder.getService();
+                binder.setTasks(tasks);
+            }
+
+            @Override
+            public void onServiceDisconnected(ComponentName name) {
+
+            }
+        };
 
         list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
@@ -109,16 +104,13 @@ public class MainActivity extends AppCompatActivity {
                 Intent noviZadatak = new Intent(MainActivity.this, ZadatakLayout.class);
                 TaskModel zadatak = (TaskModel) list.getItemAtPosition(position);
                 noviZadatak.putExtra("update", 1);
-
                 noviZadatak.putExtra("DateYear", zadatak.getYear());
                 noviZadatak.putExtra("DateMonth", zadatak.getMonth());
                 noviZadatak.putExtra("DateDay", zadatak.getDay());
                 noviZadatak.putExtra("TimeHour", zadatak.getHour());
                 noviZadatak.putExtra("TimeMinute", zadatak.getMinute());
-
                 noviZadatak.putExtra("zadatakIme", zadatak.getNameOfAssignment());
                 noviZadatak.putExtra("zadatakOpis", zadatak.getAssignment());
-
                 noviZadatak.putExtra("priority", zadatak.getPriorityFlag());
                 noviZadatak.putExtra("priority", zadatak.isReminder());
 
@@ -147,10 +139,6 @@ public class MainActivity extends AppCompatActivity {
                 MainActivity.this.startActivity(Statistika);
             }
         });
-
-        //TODO: Resi bug ako je baza prazna
-        db.insertTask(new TaskModel("Kupi leba", "kupis leba u radnji bato", 2019, 4, 25, 6, 56, 2, true));
-
 
         list.setAdapter(adapter);
 
