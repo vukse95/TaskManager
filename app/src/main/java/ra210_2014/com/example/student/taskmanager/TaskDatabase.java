@@ -24,6 +24,10 @@ public class TaskDatabase extends SQLiteOpenHelper {
     public static String TASK_TIME_FLAG = "PriorityFlag";
     public static String TASK_TIME_REMINDER = "Reminder";
 
+    public TaskDatabase(Context context) {
+        super(context, TASK_DB, null, 1);
+    }
+
     public TaskDatabase(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
     }

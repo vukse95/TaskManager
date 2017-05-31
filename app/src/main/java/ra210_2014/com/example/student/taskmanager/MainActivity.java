@@ -1,6 +1,7 @@
 package ra210_2014.com.example.student.taskmanager;
 
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.IBinder;
@@ -11,6 +12,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+
+import static android.R.attr.name;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -29,6 +32,9 @@ public class MainActivity extends AppCompatActivity {
     ListView list;
     NotificationService mService;
     ServiceConnection cnnt;
+    TaskModel[] tasks = null;
+    boolean isBounded = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,11 +44,15 @@ public class MainActivity extends AppCompatActivity {
         Button button2 = (Button) findViewById(R.id.button2);
         final Bundle extras = getIntent().getExtras();
 
+
         adapter = new TaskAdapter(this);
         final TaskDatabase db = new TaskDatabase(this, "Tasks", null, 1);
         list = (ListView) findViewById(R.id.list);
         list.setAdapter(adapter);
-        final TaskModel[] tasks;
+
+
+        //Intent i = new Intent(MainActivity.this, NotificationService.class);
+        //bindService(i, cnnt, BIND_AUTO_CREATE);
 
         //ako vrati da je novo dodaj u bazu i obnovi listu adaptera
         //ako je update pronadji u bazi zameni s novim i obnovi listu adaptera
@@ -75,8 +85,8 @@ public class MainActivity extends AppCompatActivity {
         tasks = db.readTaskModel();
 
         if (tasks != null) {
-            for (int i = 0; i < tasks.length; i++) {
-                adapter.addTask(tasks[i]);
+            for (int j = 0; j < tasks.length; j++) {
+                adapter.addTask(tasks[j]);
             }
         }
 
@@ -87,13 +97,16 @@ public class MainActivity extends AppCompatActivity {
                 mService = binder.getService();
                 binder.getService();
                 binder.setTasks(tasks);
+                isBounded = true;
             }
 
             @Override
             public void onServiceDisconnected(ComponentName name) {
-
+                isBounded = false;
             }
         };
+
+
 
         list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
@@ -143,11 +156,25 @@ public class MainActivity extends AppCompatActivity {
         list.setAdapter(adapter);
 
     }
-    /*
+
+
+/*
     @Override
     protected void onStop() {
         super.onStop();
-        unbindService(cnnt);
+        if (isBounded){
+            unbindService(cnnt);
+            isBounded = false;
+        }
+
+    }
+*/
+/*
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Intent in = new Intent(this, NotificationService.class);
+        bindService(in, cnnt, Context.BIND_AUTO_CREATE);
     }
     */
 }
