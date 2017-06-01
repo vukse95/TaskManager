@@ -18,6 +18,10 @@
         <activity android:name=".ZadatakLayout" android:screenOrientation="portrait"/>
         <activity android:name=".StatistikaLayout" android:screenOrientation="portrait"/>
         <activity android:name=".KalendarLayout" android:screenOrientation="portrait"></activity>
+        <service
+            android:name=".NotificationService"
+            android:enabled="true"
+            android:exported="true"></service>
     </application>
 
 </manifest>

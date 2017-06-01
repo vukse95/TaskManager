@@ -9,6 +9,8 @@ import android.os.IBinder;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
+import android.view.ViewDebug;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -30,7 +32,15 @@ public class NotificationService extends Service {
     int Hour = calender.get(Calendar.HOUR);
     int Min = calender.get(Calendar.MINUTE);
 
+
+
     public NotificationService() {
+        Log.d("LOG", String.valueOf(Day));
+        Log.d("LOG", String.valueOf(Month));
+        Log.d("LOG", String.valueOf(Year));
+        Log.d("LOG", String.valueOf(Hour));
+        Log.d("LOG", String.valueOf(Min));
+
         final Handler handler = new Handler();
         Runnable thread = new Runnable() {
             @Override
@@ -61,7 +71,9 @@ public class NotificationService extends Service {
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
+        Log.d("BIND", "onBind: USAOBATO");
         return myBinder;
+
     }
 
 
