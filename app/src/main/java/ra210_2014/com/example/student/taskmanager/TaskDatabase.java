@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.DatabaseErrorHandler;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 /**
  * Created by Vukse on 28.5.2017..
@@ -13,6 +14,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class TaskDatabase extends SQLiteOpenHelper {
 
+    private static final String TAG = "TaskDatabase";
     public static String TASK_DB = "Tasks";
     public static String TASK_NAME = "NameOfAssignment";
     public static String TASK_DESCRIPTION = "Assignment";
@@ -125,7 +127,10 @@ public class TaskDatabase extends SQLiteOpenHelper {
         }
 
         //update bug-uje, resiti rucno!
-        db.update(TASK_DB, contentValues,"" + TASK_NAME + "= '" + oldTask.getNameOfAssignment() +"' AND " + TASK_DESCRIPTION + "= '" + oldTask.getAssignment() , null);
+
+        String selection = "" + TASK_NAME + "= '" + oldTask.getNameOfAssignment() +"' AND " + TASK_DESCRIPTION + "= '" + oldTask.getAssignment()+ "'";
+        Log.d(TAG, "updateTask: SELECTION IS " + selection);
+        db.update(TASK_DB, contentValues, selection , null);
         db.close();
     }
 

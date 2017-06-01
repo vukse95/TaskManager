@@ -31,11 +31,27 @@ public class MainActivity extends AppCompatActivity {
     TaskAdapter adapter;
     ListView list;
     NotificationService mService;
-    ServiceConnection cnnt;
+
     TaskModel[] tasks = null;
     boolean isBounded = false;
     TaskModel zadatak;
 
+
+    private ServiceConnection cnnt = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            NotificationService.MyLocalBinder binder = (NotificationService.MyLocalBinder) service;
+            mService = binder.getService();
+            binder.getService();
+            binder.setTasks(tasks);
+            isBounded = true;
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            isBounded = false;
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,8 +68,8 @@ public class MainActivity extends AppCompatActivity {
         list.setAdapter(adapter);
 
 
-        //Intent i = new Intent(MainActivity.this, NotificationService.class);
-        //bindService(i, cnnt, BIND_AUTO_CREATE);
+        Intent i = new Intent(MainActivity.this, NotificationService.class);
+        bindService(i, cnnt, BIND_AUTO_CREATE);
 
         //ako vrati da je novo dodaj u bazu i obnovi listu adaptera
         //ako je update pronadji u bazi zameni s novim i obnovi listu adaptera
@@ -97,21 +113,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        cnnt = new ServiceConnection() {
-            @Override
-            public void onServiceConnected(ComponentName name, IBinder service) {
-                NotificationService.MyLocalBinder binder = (NotificationService.MyLocalBinder) service;
-                mService = binder.getService();
-                binder.getService();
-                binder.setTasks(tasks);
-                isBounded = true;
-            }
-
-            @Override
-            public void onServiceDisconnected(ComponentName name) {
-                isBounded = false;
-            }
-        };
 
 
 
