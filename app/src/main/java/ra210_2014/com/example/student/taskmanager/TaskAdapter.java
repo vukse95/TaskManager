@@ -36,6 +36,9 @@ public class TaskAdapter extends BaseAdapter {
         this.context = context;
         this.tasks = new ArrayList<>();
     }
+    public ArrayList<TaskModel> getTask(){
+        return tasks;
+    }
 
     public void addTask(TaskModel taskModel) {
         tasks.add(taskModel);

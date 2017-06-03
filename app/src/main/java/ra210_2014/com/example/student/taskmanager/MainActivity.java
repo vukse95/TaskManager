@@ -37,22 +37,6 @@ public class MainActivity extends AppCompatActivity {
     TaskModel zadatak;
 
 
-    private ServiceConnection cnnt = new ServiceConnection() {
-        @Override
-        public void onServiceConnected(ComponentName name, IBinder service) {
-            NotificationService.MyLocalBinder binder = (NotificationService.MyLocalBinder) service;
-            mService = binder.getService();
-            binder.getService();
-            binder.setTasks(tasks);
-            isBounded = true;
-        }
-
-        @Override
-        public void onServiceDisconnected(ComponentName name) {
-            isBounded = false;
-        }
-    };
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -166,7 +150,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-/*
     @Override
     protected void onStop() {
         super.onStop();
@@ -176,13 +159,26 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
-*/
-/*
+
     @Override
     protected void onStart() {
         super.onStart();
         Intent in = new Intent(this, NotificationService.class);
         bindService(in, cnnt, Context.BIND_AUTO_CREATE);
     }
-    */
+
+    private ServiceConnection cnnt = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            NotificationService.MyLocalBinder binder = (NotificationService.MyLocalBinder) service;
+            mService = binder.getService();
+            binder.setTasks(adapter.getTask());
+            isBounded = true;
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            isBounded = false;
+        }
+    };
 }
