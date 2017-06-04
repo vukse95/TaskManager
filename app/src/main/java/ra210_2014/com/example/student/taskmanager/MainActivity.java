@@ -78,14 +78,15 @@ public class MainActivity extends AppCompatActivity {
                 db.insertTask(tmp);
                 //adapter.addTask(tmp);
             } else if (extras.getInt("update") == 1) {
+                /*
                 //pretrazi bazu i edituj
                 TaskModel tmp = new TaskModel(zadatakImeString, zadatakOpisString, DateYear, DateMonth
                         , DateDay, TimeHour, TimeMinute, dugmeFlag, reminder);
 
                 //zadatak_oldTask, tmp_newTask
-                //TODO:BUG!!!!!!!
+                //TODO:BUG, gde naci stari zadatak ?!!!!!!!
                 db.updateTask(zadatak, tmp);
-
+                */
             }
         }
 
@@ -117,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
                 noviZadatak.putExtra("zadatakIme", zadatak.getNameOfAssignment());
                 noviZadatak.putExtra("zadatakOpis", zadatak.getAssignment());
                 noviZadatak.putExtra("priority", zadatak.getPriorityFlag());
-                noviZadatak.putExtra("priority", zadatak.isReminder());
+                noviZadatak.putExtra("reminder", zadatak.isReminder());
 
                 MainActivity.this.startActivity(noviZadatak);
 

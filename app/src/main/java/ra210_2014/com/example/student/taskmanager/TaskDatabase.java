@@ -76,8 +76,6 @@ public class TaskDatabase extends SQLiteOpenHelper {
     }
 
     public void updateTask(TaskModel oldTask, TaskModel  newTask){
-        //TODO:update
-
         /*
         UPDATE
                 Customers
@@ -92,7 +90,6 @@ public class TaskDatabase extends SQLiteOpenHelper {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues contentValues = new ContentValues();
 
-        //u slucaju greske
         if(newTask.getAssignment() == null)
         {
             newTask.setAssignment("Prazno!");

@@ -22,6 +22,10 @@ public class ZadatakLayout extends AppCompatActivity {
     int TimeHour;
     int TimeMinute;
     boolean updateFlag = false;
+    boolean reminderFlag = false;
+
+    TaskModel oldTask;
+    TaskModel tmp;
 
     String zadatakImeString;
     String zadatakOpisString;
@@ -62,6 +66,14 @@ public class ZadatakLayout extends AppCompatActivity {
 
                 zadatakImeString = extras.getString("zadatakIme");
                 zadatakOpisString = extras.getString("zadatakOpis");
+
+                reminderFlag = extras.getBoolean("reminder");
+
+                //sacuvaj stari zadatak
+                oldTask = new TaskModel(zadatakImeString, zadatakOpisString, DateYear, DateMonth
+                        , DateDay, TimeHour, TimeMinute, dugmeFlag, reminderFlag);
+
+
             } else if (extras.getInt("calendar") == 1) {
                 DateYear = extras.getInt("DateYear");
                 DateMonth = extras.getInt("DateMonth");
@@ -94,31 +106,46 @@ public class ZadatakLayout extends AppCompatActivity {
                     if (zadatakOpis.getText().toString().isEmpty())
                         zadatakOpis.setError("Unesite opis zadatka!");
                 } else {
-                    //dodaj u listu
-                    //adapter.addTask(new TaskModel(zadatakIme.getText(), "kupis leba u radnji bato", 2017, 6, 18
-                    //        , 6, 56, 15, true));
-                    MainActivityIntent.putExtra("DateYear", DateYear);
-                    MainActivityIntent.putExtra("DateMonth", DateMonth);
-                    MainActivityIntent.putExtra("DateDay", DateDay);
-                    MainActivityIntent.putExtra("TimeHour", TimeHour);
-                    MainActivityIntent.putExtra("TimeMinute", TimeMinute);
+                    if (updateFlag) {
+                        zadatakImeString = zadatakIme.getText().toString();
+                        zadatakOpisString = zadatakOpis.getText().toString();
 
-                    MainActivityIntent.putExtra("zadatakIme", zadatakImeString);
-                    MainActivityIntent.putExtra("zadatakOpis", zadatakOpisString);
+                        if (reminder.isChecked()) {
+                            tmp = new TaskModel(zadatakImeString, zadatakOpisString, DateYear, DateMonth
+                                    , DateDay, TimeHour, TimeMinute, dugmeFlag, true);
+                        } else {
+                            tmp = new TaskModel(zadatakImeString, zadatakOpisString, DateYear, DateMonth
+                                    , DateDay, TimeHour, TimeMinute, dugmeFlag, false);
+                        }
 
-                    MainActivityIntent.putExtra("priority", dugmeFlag);
-                    if (reminder.isChecked()) {
-                        MainActivityIntent.putExtra("reminder", true);
+                        db.updateTask(oldTask, tmp);
+
                     } else {
-                        MainActivityIntent.putExtra("reminder", false);
-                    }
+                        MainActivityIntent.putExtra("DateYear", DateYear);
+                        MainActivityIntent.putExtra("DateMonth", DateMonth);
+                        MainActivityIntent.putExtra("DateDay", DateDay);
+                        MainActivityIntent.putExtra("TimeHour", TimeHour);
+                        MainActivityIntent.putExtra("TimeMinute", TimeMinute);
 
-                    if (extras.getInt("update") == 1) {
-                        MainActivityIntent.putExtra("update", 1);
-                    } else {
-                        MainActivityIntent.putExtra("new", 1);
-                    }
+                        zadatakImeString = zadatakIme.getText().toString();
+                        zadatakOpisString = zadatakOpis.getText().toString();
 
+                        MainActivityIntent.putExtra("zadatakIme", zadatakImeString);
+                        MainActivityIntent.putExtra("zadatakOpis", zadatakOpisString);
+
+                        MainActivityIntent.putExtra("priority", dugmeFlag);
+                        if (reminder.isChecked()) {
+                            MainActivityIntent.putExtra("reminder", true);
+                        } else {
+                            MainActivityIntent.putExtra("reminder", false);
+                        }
+
+                        if (extras.getInt("update") == 1) {
+                            MainActivityIntent.putExtra("update", 1);
+                        } else {
+                            MainActivityIntent.putExtra("new", 1);
+                        }
+                    }
                     ZadatakLayout.this.startActivity(MainActivityIntent);
                 }
             }
