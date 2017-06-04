@@ -38,10 +38,10 @@ public class StatistikaLayout extends AppCompatActivity {
                         greenPriority++;
                         break;
                     case 2:
-                        yellowPriority++;
+                        redPriority++;
                         break;
                     case 3:
-                        redPriority++;
+                        yellowPriority++;
                         break;
                 }
             }
