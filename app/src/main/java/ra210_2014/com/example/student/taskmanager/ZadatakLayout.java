@@ -21,7 +21,7 @@ public class ZadatakLayout extends AppCompatActivity {
     int DateDay;
     int TimeHour;
     int TimeMinute;
-    //boolean reminder;
+    boolean updateFlag = false;
 
     String zadatakImeString;
     String zadatakOpisString;
@@ -43,11 +43,16 @@ public class ZadatakLayout extends AppCompatActivity {
         final Intent MainActivityIntent = new Intent(ZadatakLayout.this, MainActivity.class);
         final Bundle extras = getIntent().getExtras();
 
+        //mogao bih da ne prosledjujem, nego direktno!
+        final TaskDatabase db = new TaskDatabase(ZadatakLayout.this);
+
 
         if (extras != null) {
             if (extras.getInt("update") == 1) {
                 button3.setText("Sacuvaj");
                 button4.setText("Obrisi");
+
+                updateFlag = true;
 
                 DateYear = extras.getInt("DateYear");
                 DateMonth = extras.getInt("DateMonth");
@@ -67,7 +72,6 @@ public class ZadatakLayout extends AppCompatActivity {
                 zadatakImeString = extras.getString("zadatakIme");
                 zadatakOpisString = extras.getString("zadatakOpis");
             }
-
 
 
             zadatakIme.setText(zadatakImeString, TextView.BufferType.EDITABLE);
@@ -109,8 +113,6 @@ public class ZadatakLayout extends AppCompatActivity {
                         MainActivityIntent.putExtra("reminder", false);
                     }
 
-                    //TODO: MENJAO OVDE!
-
                     if (extras.getInt("update") == 1) {
                         MainActivityIntent.putExtra("update", 1);
                     } else {
@@ -125,7 +127,13 @@ public class ZadatakLayout extends AppCompatActivity {
         button4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //otvori MainActivity
+                if (updateFlag) {
+                    if (reminder.isChecked()) {
+                        db.removeTask(new TaskModel(zadatakImeString, zadatakOpisString, DateYear, DateMonth, DateDay, TimeHour, TimeMinute, dugmeFlag, true));
+                    } else {
+                        db.removeTask(new TaskModel(zadatakImeString, zadatakOpisString, DateYear, DateMonth, DateDay, TimeHour, TimeMinute, dugmeFlag, false));
+                    }
+                }
                 ZadatakLayout.this.startActivity(MainActivityIntent);
             }
         });

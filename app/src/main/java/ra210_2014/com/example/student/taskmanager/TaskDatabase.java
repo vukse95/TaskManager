@@ -133,6 +133,15 @@ public class TaskDatabase extends SQLiteOpenHelper {
         db.update(TASK_DB, contentValues, selection , null);
         db.close();
     }
+    public void removeTask(TaskModel task){
+        SQLiteDatabase db = getWritableDatabase();
+
+        String selection = "" + TASK_NAME + "= '" + task.getNameOfAssignment() +"' AND " + TASK_DESCRIPTION + "= '" + task.getAssignment()+ "'";
+        Log.d(TAG, "deleteTask: SELECTION IS " + selection);
+
+        db.delete(TASK_DB, selection , null);
+        db.close();
+    }
 
     public TaskModel[] readTaskModel() {
 
