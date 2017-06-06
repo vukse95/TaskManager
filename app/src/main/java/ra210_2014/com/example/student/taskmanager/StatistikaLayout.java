@@ -8,6 +8,8 @@ import android.widget.Button;
 
 public class StatistikaLayout extends AppCompatActivity {
 
+    private NativeClass nativna_klasa;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,11 +26,12 @@ public class StatistikaLayout extends AppCompatActivity {
         float yellowPriority = 0;
         float redPriority = 0;
 
-        int greenPriorityPercentage = 0;
-        int yellowPriorityPercentage = 0;
-        int redPriorityPercentage = 0;
+        float greenPriorityPercentage = 0;
+        float yellowPriorityPercentage = 0;
+        float redPriorityPercentage = 0;
 
         tasks = db.readTaskModel();
+        nativna_klasa = new NativeClass();
 
         if(tasks != null){
             for (int j = 0; j < tasks.length; j++) {
@@ -47,9 +50,13 @@ public class StatistikaLayout extends AppCompatActivity {
             }
         }
 
-        greenPriorityPercentage = Math.round((greenPriority / tasks.length) * 100);
+        /*greenPriorityPercentage = Math.round((greenPriority / tasks.length) * 100);
         yellowPriorityPercentage = Math.round((yellowPriority / tasks.length) * 100);
-        redPriorityPercentage = Math.round((redPriority / tasks.length) * 100);
+        redPriorityPercentage = Math.round((redPriority / tasks.length) * 100);*/
+
+        greenPriorityPercentage = nativna_klasa.percentageCalculation(greenPriority, Math.round(tasks.length));
+        yellowPriorityPercentage = nativna_klasa.percentageCalculation(yellowPriority, Math.round(tasks.length));
+        redPriorityPercentage = nativna_klasa.percentageCalculation(redPriority, Math.round(tasks.length));
 
         float[] datapoints1 = {100 - greenPriorityPercentage, greenPriorityPercentage};
         float[] datapoints2= {100 - yellowPriorityPercentage, yellowPriorityPercentage};
